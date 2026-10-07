@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="Foto profil">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4f46e5"/>
+      <stop offset="1" stop-color="#06b6d4"/>
+    </linearGradient>
+    <clipPath id="circle"><circle cx="200" cy="200" r="200"/></clipPath>
+  </defs>
+  <g clip-path="url(#circle)">
+    <rect width="400" height="400" fill="url(#bg)"/>
+    <circle cx="200" cy="150" r="70" fill="#ffffff" opacity=".92"/>
+    <path d="M60 400c0-88 63-150 140-150s140 62 140 150z" fill="#ffffff" opacity=".92"/>
+  </g>
+  <text x="200" y="382" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#ffffff" opacity=".0">Foto Profil</text>
+</svg>

@@ -1,0 +1,18 @@
+# OS & editor
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+
+# Log & cache
+*.log
+.cache/
+
+# Node (jika nanti menambah build tool)
+node_modules/
+dist/
+.env
+.env.*
+
+# Backup konten lokal
+konten-portofolio.json

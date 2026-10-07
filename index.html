@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profil Diri &mdash; Portofolio Digital</title>
+  <meta name="description" content="Portofolio digital: keahlian utama, proyek pilihan, dan pengalaman." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Structured data: membantu SEO & pembaca CV memahami identitas -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Andi Pratama",
+    "jobTitle": "Web Developer & Technical Educator",
+    "description": "Web Developer & Technical Educator dengan pengalaman 5+ tahun membangun produk digital yang cepat, aksesibel, dan berdampak.",
+    "email": "mailto:andi@example.com",
+    "address": { "@type": "PostalAddress", "addressLocality": "Jakarta", "addressCountry": "ID" },
+    "knowsAbout": ["Web Development", "Frontend Engineering", "UI Design", "Technical Education"],
+    "sameAs": [
+      "https://linkedin.com/in/username",
+      "https://github.com/username",
+      "https://dribbble.com/username"
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#utama">Lewati ke konten utama</a>
+
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+  <!-- ============ NAVBAR ============ -->
+  <header class="nav" id="navbar">
+    <div class="container nav__inner">
+      <a href="#hero" class="nav__brand" aria-label="Beranda">
+        <span class="nav__brand-mark">AD</span>
+        <span class="nav__brand-text">Andi Pratama</span>
+      </a>
+
+      <nav class="nav__links" id="navLinks" aria-label="Navigasi utama">
+        <a href="#tentang">Tentang</a>
+        <a href="#keahlian">Keahlian</a>
+        <a href="#proyek">Proyek</a>
+        <a href="#pengalaman">Pengalaman</a>
+        <a href="#pendidikan">Pendidikan</a>
+        <a href="#kontak">Kontak</a>
+      </nav>
+
+      <div class="nav__actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Ganti tema" title="Ganti tema">
+          <svg class="icon icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="icon icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+        <a href="assets/cv.pdf" class="btn btn--sm btn--ghost" download>
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+          CV
+        </a>
+        <button class="nav__burger" id="navBurger" aria-label="Buka menu" aria-expanded="false" aria-controls="navLinks">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="utama">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="hero">
+      <div class="container hero__inner">
+        <div class="hero__text reveal">
+          <p class="hero__eyebrow">
+            <span class="dot" aria-hidden="true"></span>
+            Terbuka untuk peluang kerja sama
+          </p>
+          <h1 class="hero__title">
+            Halo, saya <span class="grad">Andi Pratama</span>
+          </h1>
+          <p class="hero__role">Web Developer &amp; Technical Educator</p>
+          <p class="hero__lead">
+            Web Developer &amp; Technical Educator dengan pengalaman 5+ tahun membangun
+            produk digital dari konsep hingga rilis produksi. Fokus keahlian saya ada pada
+            performa, aksesibilitas, dan pengalaman pengguna yang sederhana namun berdampak.
+            Saya membantu tim mengubah kebutuhan rumit menjadi antarmuka yang cepat, mudah
+            dipakai, dan mudah dirawat.
+          </p>
+
+          <ul class="hero__meta">
+            <li>
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              Jakarta, Indonesia
+            </li>
+            <li>
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+              andi@example.com
+            </li>
+          </ul>
+
+          <div class="hero__cta">
+            <a href="assets/cv.pdf" class="btn btn--primary" download>
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+              Unduh CV (PDF)
+            </a>
+            <a href="#kontak" class="btn btn--outline">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+              Hubungi Saya
+            </a>
+            <a href="#proyek" class="hero__link">
+              Lihat Proyek
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+
+          <dl class="hero__stats">
+            <div><dt>5+</dt><dd>Tahun pengalaman</dd></div>
+            <div><dt>40+</dt><dd>Proyek selesai</dd></div>
+            <div><dt>12</dt><dd>Klien puas</dd></div>
+          </dl>
+        </div>
+
+        <div class="hero__visual reveal">
+          <div class="hero__blob" aria-hidden="true"></div>
+
+          <figure class="hero__avatar">
+            <img src="assets/avatar.svg" alt="Foto profil Andi Pratama" width="400" height="400" />
+            <figcaption class="hero__badge">
+              <span class="dot" aria-hidden="true"></span> Tersedia
+            </figcaption>
+          </figure>
+
+          <div class="hero__card" aria-hidden="true">
+            <div class="hero__card-row">
+              <span class="chip chip--green"></span><span class="chip chip--amber"></span><span class="chip chip--red"></span>
+            </div>
+            <pre class="hero__code"><code><span class="c-k">const</span> <span class="c-v">andi</span> = {
+  <span class="c-p">role</span>: <span class="c-s">"Frontend Engineer"</span>,
+  <span class="c-p">stack</span>: [<span class="c-s">"React"</span>, <span class="c-s">"TypeScript"</span>],
+  <span class="c-p">fokus</span>: <span class="c-s">"UX &amp; Performa"</span>,
+  <span class="c-p">siap</span>: <span class="c-b">true</span>,
+};</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TENTANG SAYA ============ -->
+    <section class="section section--alt" id="tentang">
+      <div class="container about">
+        <div class="about__text reveal">
+          <p class="kicker">Tentang Saya</p>
+          <h2 class="section__title">Dari masalah nyata menjadi produk yang benar-benar dipakai</h2>
+          <h3 class="about__subhead">Latar Belakang Profesional</h3>
+          <p>
+            Saya mulai dari rasa penasaran bagaimana sebuah halaman sederhana bisa
+            memudahkan ribuan orang. Sejak saat itu saya menghabiskan lima tahun terakhir
+            membangun aplikasi web bersama tim produk, dari startup kecil hingga perusahaan
+            dengan puluhan ribu pengguna aktif.
+          </p>
+          <p>
+            Fokus saya ada di persimpangan antara <strong>rekayasa frontend</strong> dan
+            <strong>desain pengalaman</strong>: menulis kode yang cepat, aksesibel, dan
+            terukur, tanpa mengorbankan kejelasan bagi pengguna. Saya percaya produk yang baik
+            lahir dari pemahaman masalah, bukan sekadar menumpuk fitur.
+          </p>
+          <p>
+            Selain membangun, saya senang <strong>mengajar dan berbagi</strong> &mdash;
+            melalui workshop internal, mentor komunitas, dan dokumentasi yang rapi &mdash;
+            karena pengetahuan yang dibagikan membuat seluruh tim tumbuh lebih cepat.
+          </p>
+
+          <p class="about__signoff">
+            &ldquo;Kerjakan hal rumit dengan sederhana, lalu ukur dampaknya.&rdquo;
+          </p>
+        </div>
+
+        <aside class="about__facts reveal" aria-label="Ringkasan fakta">
+          <h3 class="about__facts-title">Sekilas</h3>
+          <ul class="facts">
+            <li class="fact">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              <div><span class="fact__label">Berbasis di</span><span class="fact__value">Jakarta, Indonesia (terbuka remote)</span></div>
+            </li>
+            <li class="fact">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="9"/></svg>
+              <div><span class="fact__label">Fokus keahlian</span><span class="fact__value">Performa web, aksesibilitas, design system</span></div>
+            </li>
+            <li class="fact">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+              <div><span class="fact__label">Pengalaman</span><span class="fact__value">5+ tahun, 40+ proyek terkirim</span></div>
+            </li>
+            <li class="fact">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.7 3 6 3s6-2 6-3v-5"/></svg>
+              <div><span class="fact__label">Pendidikan</span><span class="fact__value">S1 Teknik Informatika, cum laude</span></div>
+            </li>
+            <li class="fact">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18z"/></svg>
+              <div><span class="fact__label">Bahasa</span><span class="fact__value">Indonesia (native) &middot; Inggris (profesional)</span></div>
+            </li>
+          </ul>
+        </aside>
+      </div>
+
+      <!-- Bidang Minat Utama -->
+      <div class="container interests">
+        <div class="reveal">
+          <h3 class="about__subhead">Bidang Minat Utama</h3>
+          <p class="philosophy__lead">Tiga area yang paling saya geluti dan ingin terus kembangkan.</p>
+        </div>
+        <div class="interests-grid">
+          <article class="interest reveal">
+            <span class="interest__icon" aria-hidden="true">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M8 9l-3 3 3 3M16 9l3 3-3 3M14 5l-4 14"/></svg>
+            </span>
+            <h4>Pengembangan Web</h4>
+            <p>Membangun aplikasi web modern yang cepat, aksesibel, dan skalabel &mdash; dari antarmuka hingga integrasi API.</p>
+          </article>
+          <article class="interest reveal">
+            <span class="interest__icon" aria-hidden="true">
+              <svg class="icon" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v7c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12v7c0 1.7 3.6 3 8 3s8-1.3 8-3v-7"/></svg>
+            </span>
+            <h4>Sistem Informasi</h4>
+            <p>Merancang alur data dan sistem yang membuat operasional tim lebih efisien, terukur, dan mudah dipelihara.</p>
+          </article>
+          <article class="interest reveal">
+            <span class="interest__icon" aria-hidden="true">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.7 3 6 3s6-2 6-3v-5M22 10v6"/></svg>
+            </span>
+            <h4>Edukasi Teknologi</h4>
+            <p>Mengajar, menulis, dan membangun materi belajar yang membuat konsep teknis rumit menjadi mudah dipahami.</p>
+          </article>
+        </div>
+      </div>
+
+      <!-- Filosofi Kerja -->
+      <div class="container philosophy">
+        <div class="reveal">
+          <h3 class="about__subhead">Filosofi Kerja</h3>
+          <p class="philosophy__lead">Empat prinsip yang saya pegang di setiap proyek.</p>
+        </div>
+        <div class="philosophy-grid">
+          <article class="principle reveal">
+            <span class="principle__no" aria-hidden="true">01</span>
+            <h4>Sederhana dulu, baru cerdas</h4>
+            <p>Bangun solusi paling sederhana yang menyelesaikan masalah, lalu optimalkan berdasarkan kebutuhan nyata &mdash; bukan tebakan.</p>
+          </article>
+          <article class="principle reveal">
+            <span class="principle__no" aria-hidden="true">02</span>
+            <h4>Ukur, jangan menebak</h4>
+            <p>Setiap keputusan desain dan teknis diuji dengan data pengguna serta metrik performa, agar dampaknya bisa dibuktikan.</p>
+          </article>
+          <article class="principle reveal">
+            <span class="principle__no" aria-hidden="true">03</span>
+            <h4>Aksesibel sejak awal</h4>
+            <p>Aksesibilitas bukan tambahan di akhir, melainkan dasar yang membuat produk dapat digunakan semua orang.</p>
+          </article>
+          <article class="principle reveal">
+            <span class="principle__no" aria-hidden="true">04</span>
+            <h4>Berbagi agar tim tumbuh</h4>
+            <p>Dokumentasi, code review, dan mentoring membuat pengetahuan tersebar sehingga seluruh tim bergerak lebih cepat.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ KEAHLIAN ============ -->
+    <section class="section" id="keahlian">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="kicker">Keahlian</p>
+          <h2 class="section__title">Keahlian Utama</h2>
+          <p class="section__sub">Kombinasi keterampilan teknis dan kemampuan inti untuk menghasilkan produk yang utuh.</p>
+        </header>
+
+        <h3 class="about__subhead reveal">Technical Skills</h3>
+        <p class="philosophy__lead reveal">Pengembangan Web &amp; Software &mdash; teknologi yang saya pakai untuk membangun dan mengoperasikan produk.</p>
+        <div class="skills">
+          <article class="skill-group reveal">
+            <h3>Bahasa Pemrograman</h3>
+            <ul class="tags">
+              <li>JavaScript</li><li>TypeScript</li><li>Python</li><li>PHP</li>
+              <li>SQL</li><li>HTML5</li><li>CSS3</li>
+            </ul>
+          </article>
+          <article class="skill-group reveal">
+            <h3>Framework &amp; Library</h3>
+            <ul class="tags">
+              <li>React</li><li>Vue</li><li>Next.js</li><li>Node.js</li>
+              <li>Express</li><li>Laravel</li><li>Tailwind</li><li>Bootstrap</li>
+            </ul>
+          </article>
+          <article class="skill-group reveal">
+            <h3>Database</h3>
+            <ul class="tags">
+              <li>PostgreSQL</li><li>MySQL</li><li>MongoDB</li>
+              <li>Redis</li><li>Firebase Firestore</li>
+            </ul>
+          </article>
+          <article class="skill-group reveal">
+            <h3>Cloud &amp; Serverless</h3>
+            <ul class="tags">
+              <li>AWS Lambda</li><li>Amazon S3</li><li>Google Cloud</li>
+              <li>Google Apps Script</li><li>Firebase</li><li>Vercel</li><li>Netlify</li>
+            </ul>
+          </article>
+          <article class="skill-group reveal">
+            <h3>DevOps &amp; Tools</h3>
+            <ul class="tags">
+              <li>Git</li><li>GitHub Actions</li><li>Docker</li>
+              <li>CI/CD</li><li>Jest</li><li>Figma</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="bars reveal">
+          <div class="bar"><span>UI / Frontend</span><i style="--w:95%"></i></div>
+          <div class="bar"><span>Backend API</span><i style="--w:82%"></i></div>
+          <div class="bar"><span>Database</span><i style="--w:75%"></i></div>
+          <div class="bar"><span>Cloud &amp; Serverless</span><i style="--w:70%"></i></div>
+        </div>
+
+        <!-- Alat & Software Tambahan -->
+        <div class="tools-extra">
+          <h3 class="about__subhead reveal">Alat &amp; Software Tambahan</h3>
+          <p class="philosophy__lead reveal">Perangkat pendukung desain, produksi media, dan kolaborasi harian.</p>
+          <div class="skills">
+            <article class="skill-group reveal">
+              <h3>Desain</h3>
+              <ul class="tags">
+                <li>Figma</li><li>Adobe Photoshop</li><li>Adobe Illustrator</li>
+                <li>Canva</li><li>Affinity Designer</li>
+              </ul>
+            </article>
+            <article class="skill-group reveal">
+              <h3>Editing Video</h3>
+              <ul class="tags">
+                <li>Adobe Premiere Pro</li><li>Adobe After Effects</li>
+                <li>DaVinci Resolve</li><li>CapCut</li>
+              </ul>
+            </article>
+            <article class="skill-group reveal">
+              <h3>Produktivitas</h3>
+              <ul class="tags">
+                <li>Notion</li><li>Trello</li><li>Miro</li><li>Slack</li>
+                <li>Google Workspace</li><li>Microsoft 365</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+
+        <!-- Keahlian Non-Teknis -->
+        <div class="core">
+          <h3 class="about__subhead reveal">Keahlian Non-Teknis</h3>
+          <p class="philosophy__lead reveal">Kemampuan inti yang menopang kerja teknis dan kerja sama tim.</p>
+          <div class="interests-grid">
+            <article class="interest reveal">
+              <span class="interest__icon" aria-hidden="true">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.7 3 6 3s6-2 6-3v-5"/></svg>
+              </span>
+              <h4>Pengajaran &amp; Instruksional</h4>
+              <p>Merancang materi, memandu workshop, dan mendampingi anggota tim agar cepat memahami konsep teknis.</p>
+            </article>
+            <article class="interest reveal">
+              <span class="interest__icon" aria-hidden="true">
+                <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M10 6.5h4a4 4 0 0 1 4 4v3.5M6.5 10v4a4 4 0 0 0 4 4h3.5"/></svg>
+              </span>
+              <h4>Analisis Sistem</h4>
+              <p>Memetakan kebutuhan, alur proses, dan data menjadi rancangan solusi yang efisien dan terukur.</p>
+            </article>
+            <article class="interest reveal">
+              <span class="interest__icon" aria-hidden="true">
+                <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18M8 15l2 2 4-4"/></svg>
+              </span>
+              <h4>Manajemen Proyek</h4>
+              <p>Merencanakan ruang lingkup, memprioritaskan tugas, dan mengawal tenggat bersama pemangku kepentingan.</p>
+            </article>
+            <article class="interest reveal">
+              <span class="interest__icon" aria-hidden="true">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              </span>
+              <h4>Komunikasi</h4>
+              <p>Menyampaikan gagasan teknis dengan bahasa yang jelas, baik lisan (presentasi) maupun tulisan (dokumentasi).</p>
+            </article>
+            <article class="interest reveal">
+              <span class="interest__icon" aria-hidden="true">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg>
+              </span>
+              <h4>Kolaborasi Lintas Tim</h4>
+              <p>Bekerja selaras dengan desain, produk, dan backend menuju tujuan yang sama tanpa silo.</p>
+            </article>
+            <article class="interest reveal">
+              <span class="interest__icon" aria-hidden="true">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M12 2 4 6v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6z"/><path d="m9 12 2 2 4-4"/></svg>
+              </span>
+              <h4>Kepemimpinan &amp; Mentoring</h4>
+              <p>Memimpin inisiatif, melakukan code review, dan membina anggota agar standar kualitas tim terjaga.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PROYEK PILIHAN ============ -->
+    <section class="section section--alt" id="proyek">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="kicker">Portofolio</p>
+          <h2 class="section__title">Proyek Pilihan</h2>
+          <p class="section__sub">
+            Kumpulan proyek yang menonjolkan dampak nyata. Klik kartu untuk detail lengkap.
+          </p>
+        </header>
+
+        <!-- Filter -->
+        <div class="filters reveal" role="tablist" aria-label="Filter kategori proyek">
+          <button class="filter is-active" data-filter="all" role="tab" aria-selected="true">Semua</button>
+          <button class="filter" data-filter="web" role="tab" aria-selected="false">Web App</button>
+          <button class="filter" data-filter="mobile" role="tab" aria-selected="false">Mobile</button>
+          <button class="filter" data-filter="branding" role="tab" aria-selected="false">Branding</button>
+        </div>
+
+        <!-- Grid kartu proyek di-render oleh JS -->
+        <div class="projects" id="projectsGrid" aria-live="polite"></div>
+
+        <p class="projects__empty" id="projectsEmpty" hidden>Tidak ada proyek pada kategori ini.</p>
+      </div>
+    </section>
+
+    <!-- ============ PENGALAMAN KERJA & ORGANISASI ============ -->
+    <section class="section" id="pengalaman">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="kicker">Perjalanan</p>
+          <h2 class="section__title">Pengalaman Kerja &amp; Organisasi</h2>
+          <p class="section__sub">Kronologis, dengan pencapaian utama yang terukur.</p>
+        </header>
+
+        <div class="timeline-tabs reveal" role="tablist" aria-label="Filter pengalaman">
+          <button class="filter is-active" data-exp="all" role="tab" aria-selected="true">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            Semua
+          </button>
+          <button class="filter" data-exp="kerja" role="tab" aria-selected="false">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            Pengalaman Kerja
+          </button>
+          <button class="filter" data-exp="organisasi" role="tab" aria-selected="false">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg>
+            Organisasi
+          </button>
+        </div>
+
+        <ol class="timeline" id="timeline">
+          <!-- ===== Pengalaman Kerja ===== -->
+          <li class="timeline__item reveal" data-exp="kerja">
+            <span class="timeline__dot" aria-hidden="true"></span>
+            <p class="timeline__date">Feb 2023 &mdash; Sekarang <span class="timeline__type">Penuh Waktu</span></p>
+            <h3 class="timeline__title">Frontend Engineer</h3>
+            <p class="timeline__org">PT Nusantara Digital &middot; Jakarta</p>
+            <ul class="timeline__points">
+              <li>Memimpin migrasi antarmuka warisan ke React + TypeScript, menurunkan waktu muat halaman <strong>42%</strong>.</li>
+              <li>Membangun design system internal yang dipakai <strong>6 tim produk</strong>, memangkas duplikasi komponen <strong>60%</strong>.</li>
+              <li>Menginisiasi pipeline CI/CD frontend, mempercepat siklus rilis dari 2 mingguan menjadi <strong>mingguan</strong>.</li>
+            </ul>
+          </li>
+
+          <li class="timeline__item reveal" data-exp="kerja">
+            <span class="timeline__dot" aria-hidden="true"></span>
+            <p class="timeline__date">Jul 2021 &mdash; Jan 2023 <span class="timeline__type">Penuh Waktu</span></p>
+            <h3 class="timeline__title">UI Developer</h3>
+            <p class="timeline__org">Studio Kreatif Arta &middot; Bandung</p>
+            <ul class="timeline__points">
+              <li>Mengembangkan <strong>25+</strong> antarmuka klien dengan skor aksesibilitas Lighthouse rata-rata <strong>96/100</strong>.</li>
+              <li>Mengotomatisasi komponen formulir, menghemat estimasi <strong>15 jam kerja</strong> per proyek.</li>
+            </ul>
+          </li>
+
+          <li class="timeline__item reveal" data-exp="kerja">
+            <span class="timeline__dot" aria-hidden="true"></span>
+            <p class="timeline__date">Jun 2020 &mdash; Jun 2021 <span class="timeline__type">Magang</span></p>
+            <h3 class="timeline__title">Frontend Intern</h3>
+            <p class="timeline__org">Startup RuangData &middot; Remote</p>
+            <ul class="timeline__points">
+              <li>Membangun dashboard analitik internal yang memangkas waktu pelaporan manual tim ops <strong>50%</strong>.</li>
+              <li>Diangkat menjadi kontributor tetap setelah masa magang berakhir.</li>
+            </ul>
+          </li>
+
+          <!-- ===== Organisasi ===== -->
+          <li class="timeline__item reveal" data-exp="organisasi">
+            <span class="timeline__dot" aria-hidden="true"></span>
+            <p class="timeline__date">2022 &mdash; Sekarang <span class="timeline__type">Organisasi</span></p>
+            <h3 class="timeline__title">Ketua Divisi Teknologi</h3>
+            <p class="timeline__org">Komunitas Developer Muda Indonesia</p>
+            <ul class="timeline__points">
+              <li>Memimpin <strong>12 anggota</strong> divisi dan menyelenggarakan <strong>8 workshop</strong> teknis dengan 600+ peserta.</li>
+              <li>Membangun situs komunitas yang meningkatkan pendaftaran anggota baru <strong>3x</strong>.</li>
+            </ul>
+          </li>
+
+          <li class="timeline__item reveal" data-exp="organisasi">
+            <span class="timeline__dot" aria-hidden="true"></span>
+            <p class="timeline__date">2018 &mdash; 2021 <span class="timeline__type">Organisasi</span></p>
+            <h3 class="timeline__title">Koordinator Media &amp; Publikasi</h3>
+            <p class="timeline__org">Himpunan Mahasiswa Teknik Informatika</p>
+            <ul class="timeline__points">
+              <li>Mengelola kanal media kampus, menaikkan jangkauan konten <strong>120%</strong> dalam satu tahun.</li>
+              <li>Mengoordinasikan <strong>5 event</strong> dengan total 1.200+ peserta.</li>
+            </ul>
+          </li>
+        </ol>
+
+        <!-- Pendidikan ringkas dihapus: lihat seksie Pendidikan & Sertifikasi -->
+      </div>
+    </section>
+
+    <!-- ============ PENDIDIKAN & SERTIFIKASI ============ -->
+    <section class="section section--alt" id="pendidikan">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="kicker">Kredensial</p>
+          <h2 class="section__title">Pendidikan &amp; Sertifikasi</h2>
+          <p class="section__sub">Latar akademik dan lisensi profesional yang relevan.</p>
+        </header>
+
+        <div class="edu-grid">
+          <!-- Pendidikan -->
+          <div class="edu-col">
+            <h3 class="edu-col__head">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.7 3 6 3s6-2 6-3v-5"/></svg>
+              Pendidikan
+            </h3>
+            <ol class="edu-list">
+              <li class="edu-item reveal">
+                <p class="edu-item__date">2017 &mdash; 2021</p>
+                <h4 class="edu-item__title">S1 Teknik Informatika</h4>
+                <p class="edu-item__org">Universitas Contoh &middot; IPK 3.82 / 4.00</p>
+                <p class="edu-item__note">Cum laude. Skripsi: optimasi performa antarmuka web pada jaringan berlatensi tinggi.</p>
+              </li>
+              <li class="edu-item reveal">
+                <p class="edu-item__date">2014 &mdash; 2017</p>
+                <h4 class="edu-item__title">SMA Jurusan MIPA</h4>
+                <p class="edu-item__org">SMA Negeri 1 Contoh</p>
+                <p class="edu-item__note">Juara 2 Olimpiade Komputer tingkat provinsi.</p>
+              </li>
+            </ol>
+          </div>
+
+          <!-- Sertifikasi -->
+          <div class="edu-col">
+            <h3 class="edu-col__head">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M8.2 13.5 7 22l5-3 5 3-1.2-8.5"/></svg>
+              Sertifikasi
+            </h3>
+            <ul class="cert-list">
+              <li class="cert reveal">
+                <div class="cert__icon" aria-hidden="true">GCP</div>
+                <div class="cert__body">
+                  <h4>Associate Cloud Engineer</h4>
+                  <p>Google Cloud &middot; 2024 &middot; ID: GC-8842</p>
+                </div>
+                <a class="cert__link" href="https://example.com" target="_blank" rel="noopener" aria-label="Verifikasi sertifikat Associate Cloud Engineer">
+                  Verifikasi
+                  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                </a>
+              </li>
+              <li class="cert reveal">
+                <div class="cert__icon" aria-hidden="true">META</div>
+                <div class="cert__body">
+                  <h4>Front-End Developer Professional</h4>
+                  <p>Meta &middot; 2023 &middot; ID: META-FE-5521</p>
+                </div>
+                <a class="cert__link" href="https://example.com" target="_blank" rel="noopener" aria-label="Verifikasi sertifikat Front-End Developer Professional">
+                  Verifikasi
+                  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                </a>
+              </li>
+              <li class="cert reveal">
+                <div class="cert__icon" aria-hidden="true">GAS</div>
+                <div class="cert__body">
+                  <h4>Google Apps Script &amp; Automation</h4>
+                  <p>Coursera &middot; 2022 &middot; ID: CR-GAS-1093</p>
+                </div>
+                <a class="cert__link" href="https://example.com" target="_blank" rel="noopener" aria-label="Verifikasi sertifikat Google Apps Script">
+                  Verifikasi
+                  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                </a>
+              </li>
+              <li class="cert reveal">
+                <div class="cert__icon" aria-hidden="true">A11Y</div>
+                <div class="cert__body">
+                  <h4>Web Accessibility Specialist</h4>
+                  <p>IAAP &middot; 2023 &middot; ID: IAAP-WAS-3310</p>
+                </div>
+                <a class="cert__link" href="https://example.com" target="_blank" rel="noopener" aria-label="Verifikasi sertifikat Web Accessibility Specialist">
+                  Verifikasi
+                  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Pelatihan & Up-skilling -->
+        <div class="training reveal">
+          <h3 class="edu-col__head">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M8 7h6M8 11h6"/></svg>
+            Pelatihan &amp; Pengembangan Keahlian
+          </h3>
+          <div class="training-grid">
+            <article class="training-card">
+              <p class="training-card__year">2024</p>
+              <h4>Advanced React Patterns &amp; Performance</h4>
+              <p class="training-card__org">Epic React &middot; 40 jam</p>
+              <p class="training-card__note">Pola komposisi lanjutan, server components, dan profiling render.</p>
+            </article>
+            <article class="training-card">
+              <p class="training-card__year">2023</p>
+              <h4>Google Apps Script Automation Bootcamp</h4>
+              <p class="training-card__org">Dicoding &middot; 30 jam</p>
+              <p class="training-card__note">Otomasi Google Workspace &amp; integrasi API untuk alur kerja tim.</p>
+            </article>
+            <article class="training-card">
+              <p class="training-card__year">2023</p>
+              <h4>UX Research Fundamentals</h4>
+              <p class="training-card__org">Nielsen Norman Group &middot; 25 jam</p>
+              <p class="training-card__note">Wawancara pengguna, usability testing, dan sintesis temuan.</p>
+            </article>
+            <article class="training-card">
+              <p class="training-card__year">2022</p>
+              <h4>Cloud &amp; DevOps untuk Developer</h4>
+              <p class="training-card__org">Bangkit Academy &middot; 60 jam</p>
+              <p class="training-card__note">CI/CD, kontainerisasi, dan observabilitas aplikasi web.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ KONTAK ============ -->
+    <section class="section section--contact" id="kontak">
+      <div class="container">
+        <div class="contact reveal">
+          <div class="contact__intro">
+            <p class="kicker">Kontak</p>
+            <h2 class="contact__title">Mari bangun sesuatu bersama.</h2>
+            <p class="contact__sub">
+              Terbuka untuk proyek freelance, posisi penuh waktu, maupun kolaborasi riset.
+              Balasan biasanya dalam 1&times;24 jam.
+            </p>
+
+            <a href="mailto:andi@example.com" class="contact__mail">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+              andi@example.com
+            </a>
+
+            <ul class="socials" aria-label="Akun profesional">
+              <li><a href="https://linkedin.com/in/username" target="_blank" rel="noopener" aria-label="LinkedIn">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0zM.5 8.5h4v12h-4zM8.5 8.5h3.8v1.7h.05c.53-.9 1.83-1.85 3.77-1.85 4.03 0 4.78 2.5 4.78 5.75v6.4h-4v-5.7c0-1.36-.03-3.1-1.9-3.1-1.9 0-2.2 1.48-2.2 3v5.8h-4z"/></svg>
+                LinkedIn
+              </a></li>
+              <li><a href="https://github.com/username" target="_blank" rel="noopener" aria-label="GitHub">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-4 1.5-4-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12 12 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.4.4-.5 1-.5 1.7V21"/></svg>
+                GitHub
+              </a></li>
+              <li><a href="https://dribbble.com/username" target="_blank" rel="noopener" aria-label="Dribbble">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8.6 2.6c4.2 4.6 6.3 9.8 6.9 16.8M2.4 10.3c6.6 0 12.7-1.6 17.2-5.3M3.6 17.5c3.1-3.6 7.2-5.3 12.4-5.1"/></svg>
+                Dribbble
+              </a></li>
+              <li><a href="assets/cv.pdf" download aria-label="Unduh CV">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+                Unduh CV
+              </a></li>
+            </ul>
+          </div>
+
+          <!-- Formulir kontak interaktif -->
+          <form class="contact-form" id="contactForm" novalidate>
+            <div class="field">
+              <label for="cf-name">Nama</label>
+              <input id="cf-name" name="name" type="text" autocomplete="name" required placeholder="Nama lengkap" />
+              <small class="field__error" data-error-for="cf-name"></small>
+            </div>
+            <div class="field">
+              <label for="cf-email">Email</label>
+              <input id="cf-email" name="email" type="email" autocomplete="email" required placeholder="nama@email.com" />
+              <small class="field__error" data-error-for="cf-email"></small>
+            </div>
+            <div class="field">
+              <label for="cf-subject">Subjek</label>
+              <select id="cf-subject" name="subject">
+                <option>Peluang kerja</option>
+                <option>Proyek freelance</option>
+                <option>Kolaborasi</option>
+                <option>Lainnya</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="cf-message">Pesan</label>
+              <textarea id="cf-message" name="message" rows="4" required placeholder="Ceritakan singkat kebutuhan Anda..."></textarea>
+              <small class="field__error" data-error-for="cf-message"></small>
+            </div>
+            <button type="submit" class="btn btn--primary contact-form__submit">
+              Kirim Pesan
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg>
+            </button>
+            <p class="contact-form__status" id="formStatus" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p>&copy; <span id="year"></span> Andi Pratama &middot; Web Developer &amp; Technical Educator.</p>
+      <nav class="footer__links" aria-label="Tautan footer">
+        <a href="#tentang">Tentang</a>
+        <a href="#keahlian">Keahlian</a>
+        <a href="#proyek">Proyek</a>
+        <a href="#pengalaman">Pengalaman</a>
+        <a href="#pendidikan">Pendidikan</a>
+        <a href="#kontak">Kontak</a>
+      </nav>
+      <a href="#hero" class="footer__top">Kembali ke atas &uarr;</a>
+    </div>
+    <div class="container footer__admin">
+      <a href="admin.html">Panel Admin</a>
+    </div>
+  </footer>
+
+  <script src="js/content.js"></script>
+  <script src="js/main.js"></script>
+
+  <button class="to-top" id="toTop" type="button" aria-label="Kembali ke atas" hidden>
+    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Panel Admin — Portofolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/admin.css" />
+</head>
+<body class="admin-body">
+
+  <!-- ============ LOGIN ============ -->
+  <div class="login" id="loginView">
+    <form class="login__card" id="loginForm" autocomplete="on">
+      <div class="login__brand" id="loginBrand">AD</div>
+      <h1 class="login__title">Panel Admin</h1>
+      <p class="login__sub">Masuk untuk mengelola isi website portofolio.</p>
+
+      <div class="afield">
+        <label for="lg-user">Username</label>
+        <input id="lg-user" name="username" type="text" autocomplete="username" placeholder="admin" />
+      </div>
+      <div class="afield">
+        <label for="lg-pass">Password</label>
+        <input id="lg-pass" name="password" type="password" autocomplete="current-password" placeholder="••••••••" />
+      </div>
+
+      <p class="login__error" id="loginError" role="alert"></p>
+      <button type="submit" class="btn btn--primary login__btn">Masuk</button>
+
+      <p class="login__hint">Default: <b>admin</b> / <b>admin123</b> — segera ubah di menu Pengaturan.</p>
+      <p class="login__warn">
+        ⚠ Keamanan: autentikasi ini berjalan di sisi klien (tanpa server), hanya untuk
+        demo / hosting statis. Siapa pun yang bisa mengakses file situs dapat membacanya.
+        Untuk perlindungan nyata, gunakan backend/host dengan autentikasi server.
+      </p>
+      <a class="login__back" href="index.html">&larr; Kembali ke website</a>
+    </form>
+  </div>
+
+  <!-- ============ DASHBOARD ============ -->
+  <div class="dash" id="dashView" hidden>
+    <aside class="dash__side">
+      <div class="dash__brand">
+        <span class="dash__brand-mark" id="sideMark">AD</span>
+        <span class="dash__brand-text">Panel Konten</span>
+      </div>
+
+      <nav class="dash__nav" id="dashNav" aria-label="Menu admin">
+        <button type="button" data-view="overview" class="is-active">Ringkasan</button>
+        <button type="button" data-view="profil">Profil &amp; Hero</button>
+        <button type="button" data-view="tentang">Tentang Saya</button>
+        <button type="button" data-view="keahlian">Keahlian</button>
+        <button type="button" data-view="proyek">Proyek</button>
+        <button type="button" data-view="pengalaman">Pengalaman</button>
+        <button type="button" data-view="pendidikan">Pendidikan &amp; Sertifikasi</button>
+        <button type="button" data-view="kontak">Kontak</button>
+        <button type="button" data-view="pengaturan">Pengaturan</button>
+      </nav>
+
+      <div class="dash__side-foot">
+        <a href="index.html" target="_blank" rel="noopener">Lihat website &nearr;</a>
+        <button type="button" id="logoutBtn" class="dash__logout">Keluar</button>
+      </div>
+    </aside>
+
+    <main class="dash__main">
+      <header class="dash__topbar">
+        <h1 class="dash__title" id="viewTitle">Ringkasan</h1>
+        <div class="dash__topactions">
+          <span class="dash__status" id="saveStatus" role="status" aria-live="polite"></span>
+          <button type="button" class="btn btn--ghost btn--sm" id="resetViewBtn" hidden>Batalkan perubahan</button>
+          <button type="button" class="btn btn--primary btn--sm" id="saveBtn">Simpan</button>
+        </div>
+      </header>
+      <div class="dash__content" id="dashContent"></div>
+    </main>
+  </div>
+
+  <script src="js/content.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+/* =========================================================
+   Panel Admin — gaya khusus
+   Mengandalkan design token dari css/style.css
+   ========================================================= */
+
+.admin-body { min-height: 100vh; }
+.admin-body .btn { border-radius: 10px; }
+
+/* ---------- Login ---------- */
+.login {
+  min-height: 100vh; display: grid; place-items: center; padding: 1.5rem;
+  background:
+    radial-gradient(circle at 15% 15%, color-mix(in srgb, var(--brand) 16%, transparent), transparent 45%),
+    radial-gradient(circle at 85% 85%, color-mix(in srgb, var(--brand-2) 16%, transparent), transparent 45%),
+    var(--bg-alt);
+}
+.login__card {
+  width: min(420px, 100%); background: var(--surface); border: 1px solid var(--border);
+  border-radius: 20px; box-shadow: var(--shadow-lg); padding: 2.25rem 2rem;
+  display: grid; gap: .9rem; text-align: left;
+}
+.login__brand {
+  width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center;
+  background: linear-gradient(135deg, var(--brand), var(--brand-2)); color: #fff;
+  font-weight: 800; font-size: 1.05rem; margin-bottom: .25rem;
+}
+.login__title { font-size: 1.4rem; font-weight: 800; letter-spacing: -.02em; }
+.login__sub { color: var(--text-soft); font-size: .92rem; margin-top: -.4rem; }
+.login__error { color: #e5484d; font-size: .85rem; font-weight: 600; min-height: 1.1rem; margin-top: -.2rem; }
+.login__btn { justify-content: center; }
+.login__hint { font-size: .8rem; color: var(--text-soft); text-align: center; }
+.login__hint b { color: var(--text); }
+.login__warn {
+  font-size: .76rem; line-height: 1.5; color: #9a6b00;
+  background: color-mix(in srgb, #f59e0b 14%, transparent);
+  border: 1px solid color-mix(in srgb, #f59e0b 35%, transparent);
+  border-radius: 10px; padding: .7rem .8rem;
+}
+[data-theme="dark"] .login__warn { color: #fbbf24; }
+.login__back { font-size: .84rem; font-weight: 600; color: var(--brand); text-align: center; }
+
+/* ---------- Layout dashboard ---------- */
+.dash { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+
+.dash__side {
+  position: sticky; top: 0; height: 100vh; overflow-y: auto;
+  background: var(--surface); border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; padding: 1.25rem 1rem;
+}
+.dash__brand { display: flex; align-items: center; gap: .65rem; font-weight: 800; padding: .25rem .35rem 1.1rem; letter-spacing: -.01em; }
+.dash__brand-mark {
+  display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--brand), var(--brand-2)); color: #fff; font-size: .8rem;
+}
+.dash__nav { display: grid; gap: .2rem; }
+.dash__nav button {
+  text-align: left; padding: .62rem .75rem; border-radius: 10px; cursor: pointer;
+  border: 1px solid transparent; background: none; font-size: .9rem; font-weight: 600;
+  color: var(--text-soft); transition: background .15s var(--ease), color .15s var(--ease);
+}
+.dash__nav button:hover { background: var(--bg-alt); color: var(--text); }
+.dash__nav button.is-active { background: var(--brand-soft); color: var(--brand); }
+.dash__side-foot { margin-top: auto; padding-top: 1rem; display: grid; gap: .5rem; border-top: 1px solid var(--border); }
+.dash__side-foot a { font-size: .85rem; font-weight: 600; color: var(--brand); }
+.dash__logout {
+  text-align: left; font-size: .85rem; font-weight: 600; color: var(--text-soft);
+  background: none; border: none; cursor: pointer; padding: .3rem 0;
+}
+.dash__logout:hover { color: #e5484d; }
+
+.dash__main { min-width: 0; display: flex; flex-direction: column; }
+.dash__topbar {
+  position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: 1rem;
+  padding: 1rem 1.75rem; background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(12px); border-bottom: 1px solid var(--border);
+}
+.dash__title { font-size: 1.2rem; font-weight: 800; letter-spacing: -.02em; }
+.dash__topactions { margin-left: auto; display: flex; align-items: center; gap: .6rem; }
+.dash__status { font-size: .82rem; font-weight: 600; color: #12a150; }
+.dash__status.is-error { color: #e5484d; }
+.dash__content { padding: 1.75rem; max-width: 980px; width: 100%; }
+
+/* ---------- Fields ---------- */
+.panel {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+  padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--shadow-sm);
+}
+.panel__title { font-size: 1rem; font-weight: 700; margin-bottom: .25rem; }
+.panel__desc { font-size: .85rem; color: var(--text-soft); margin-bottom: 1.25rem; }
+
+.afield { display: grid; gap: .3rem; margin-bottom: 1rem; }
+.afield > label { font-size: .8rem; font-weight: 600; }
+.afield small { font-size: .74rem; color: var(--text-soft); }
+.afield input, .afield select, .afield textarea {
+  width: 100%; font: inherit; font-size: .9rem; color: var(--text);
+  background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
+  padding: .6rem .75rem; transition: border-color .15s var(--ease), box-shadow .15s var(--ease);
+}
+.afield textarea { resize: vertical; min-height: 84px; line-height: 1.55; }
+.afield input:focus, .afield select:focus, .afield textarea:focus {
+  outline: none; border-color: var(--brand);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 18%, transparent);
+}
+.afield input[type="color"] { padding: .2rem; height: 40px; cursor: pointer; }
+
+.agrid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1rem; }
+.agrid--3 { grid-template-columns: repeat(3, 1fr); }
+
+/* ---------- Repeater ---------- */
+.repeater__item {
+  border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1rem .25rem;
+  margin-bottom: .85rem; background: var(--bg-alt);
+}
+.repeater__head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: .75rem;
+}
+.repeater__head span { font-size: .78rem; font-weight: 700; color: var(--text-soft); letter-spacing: .05em; text-transform: uppercase; }
+.repeater__remove {
+  border: none; background: none; cursor: pointer; color: #e5484d;
+  font-size: .8rem; font-weight: 600; padding: .2rem .3rem; border-radius: 6px;
+}
+.repeater__remove:hover { background: color-mix(in srgb, #e5484d 12%, transparent); }
+.repeater__add {
+  border: 1px dashed var(--border); background: none; cursor: pointer;
+  color: var(--brand); font-weight: 600; font-size: .86rem;
+  padding: .6rem 1rem; border-radius: 10px; width: 100%; transition: background .15s var(--ease);
+}
+.repeater__add:hover { background: var(--brand-soft); }
+
+/* ---------- Overview cards ---------- */
+.ov-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+.ov-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+  padding: 1.25rem; box-shadow: var(--shadow-sm);
+}
+.ov-card b { display: block; font-size: 1.9rem; font-weight: 800; letter-spacing: -.02em; }
+.ov-card span { font-size: .82rem; color: var(--text-soft); }
+.tips { display: grid; gap: .5rem; }
+.tips li { position: relative; padding-left: 1.2rem; font-size: .88rem; color: var(--text-soft); }
+.tips li::before { content: "›"; position: absolute; left: 0; color: var(--brand); font-weight: 800; }
+
+/* ---------- Settings ---------- */
+.btn-row { display: flex; flex-wrap: wrap; gap: .6rem; }
+.danger { border-color: color-mix(in srgb, #e5484d 45%, var(--border)); color: #e5484d; }
+.danger:hover { background: color-mix(in srgb, #e5484d 10%, transparent); border-color: #e5484d; }
+.import-area { width: 100%; min-height: 160px; font-family: ui-monospace, monospace; font-size: .8rem; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 860px) {
+  .dash { grid-template-columns: 1fr; }
+  .dash__side {
+    position: static; height: auto; border-right: none; border-bottom: 1px solid var(--border);
+  }
+  .dash__nav { grid-auto-flow: column; grid-auto-columns: max-content; overflow-x: auto; }
+  .dash__side-foot { grid-auto-flow: column; justify-content: space-between; }
+  .dash__content { padding: 1.25rem; }
+  .agrid, .agrid--3 { grid-template-columns: 1fr; }
+}
