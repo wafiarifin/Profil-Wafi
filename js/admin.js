@@ -1118,6 +1118,32 @@
     if (ok) { $("#pw-cur").value = ""; $("#pw-new").value = ""; }
   }
 
+  /* ---------- Setup publikasi lewat tautan (sekali klik) ----------
+     Format: admin.html#setup=<base64 JSON {owner,repo,branch,path,token}>
+     Dipakai untuk mengaktifkan publikasi otomatis tanpa mengetik token. */
+  function applySetupFromHash() {
+    const h = String(location.hash || "").replace(/^#/, "");
+    if (!h.startsWith("setup=")) return false;
+    let ok = false;
+    try {
+      const json = JSON.parse(atob(decodeURIComponent(h.slice(6))));
+      if (json && json.token) {
+        setPublishConfig({
+          owner: json.owner || "wafiarifin",
+          repo: json.repo || "Profil-Wafi",
+          branch: json.branch || "main",
+          path: json.path || "content.json",
+          token: String(json.token),
+          auto: json.auto !== false,
+        });
+        ok = true;
+      }
+    } catch { /* tautan tidak valid */ }
+    // Bersihkan hash agar token tidak tertinggal di address bar / riwayat.
+    try { history.replaceState(null, "", location.pathname + location.search); } catch { /* abaikan */ }
+    return ok;
+  }
+
   /* ---------- Auth / boot ---------- */
   const loginView = $("#loginView");
   const dashView = $("#dashView");
@@ -1202,5 +1228,6 @@
     setStatus("Perubahan dibatalkan.");
   });
 
+  applySetupFromHash();
   showApp();
 })();
