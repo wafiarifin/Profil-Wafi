@@ -633,16 +633,110 @@ button { font: inherit; color: inherit; }
 }
 .card.is-open .card__detail .icon { transform: rotate(180deg); }
 
+/* ---------- Publikasi Karya ---------- */
+.pub-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.pub-card {
+  --accent: var(--brand);
+  display: flex; flex-direction: column;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm);
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s var(--ease);
+  animation: cardIn .45s var(--ease) both;
+}
+.pub-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: color-mix(in srgb, var(--accent) 55%, var(--border)); }
+.pub-card__media {
+  position: relative; aspect-ratio: 16 / 10; overflow: hidden; display: grid; place-items: center;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 88%, #000), color-mix(in srgb, var(--accent) 45%, var(--brand-2)));
+}
+.pub-card__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pub-card__media::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(circle at 28% 22%, rgba(255,255,255,.28), transparent 55%);
+}
+.pub-card__ph { position: relative; z-index: 1; color: #fff; font-weight: 800; font-size: 1.05rem; letter-spacing: .04em; text-align: center; padding: 0 1rem; text-shadow: 0 4px 18px rgba(0,0,0,.25); }
+.pub-card__year {
+  position: absolute; top: .8rem; right: .8rem; z-index: 2;
+  background: rgba(0,0,0,.35); color: #fff; backdrop-filter: blur(6px);
+  font-size: .72rem; font-weight: 600; padding: .22rem .6rem; border-radius: 999px;
+}
+.pub-card__body { padding: 1.25rem 1.3rem 1.4rem; display: flex; flex-direction: column; gap: .5rem; flex: 1; }
+.pub-card__type { font-size: .74rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--accent); }
+.pub-card__title { font-size: 1.06rem; font-weight: 700; line-height: 1.35; }
+.pub-card__venue { font-size: .82rem; color: var(--text-soft); font-weight: 600; }
+.pub-card__desc { font-size: .88rem; color: var(--text-soft); flex: 1; }
+.pub-card__link { display: inline-flex; align-items: center; gap: .35rem; margin-top: .4rem; font-size: .82rem; font-weight: 700; color: var(--accent); }
+.pub-card__link .icon { width: 1em; height: 1em; }
+
+/* ---------- Techmate (Kursus Privat) ---------- */
+.techmate-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.5rem; }
+.tm-card {
+  display: flex; flex-direction: column;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm);
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s var(--ease);
+  animation: cardIn .45s var(--ease) both;
+}
+.tm-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: color-mix(in srgb, var(--brand) 55%, var(--border)); }
+.tm-card__media {
+  position: relative; aspect-ratio: 16 / 10; overflow: hidden; display: grid; place-items: center;
+  background: linear-gradient(135deg, var(--brand), var(--brand-2));
+}
+.tm-card__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tm-card__media::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(circle at 28% 22%, rgba(255,255,255,.28), transparent 55%);
+}
+.tm-card__ph { position: relative; z-index: 1; color: #fff; font-weight: 800; font-size: 1.15rem; text-align: center; padding: 0 1rem; text-shadow: 0 4px 18px rgba(0,0,0,.25); }
+.tm-card__body { padding: 1.25rem 1.3rem 1.4rem; display: flex; flex-direction: column; gap: .5rem; flex: 1; }
+.tm-card__body h3 { font-size: 1.06rem; font-weight: 700; }
+.tm-card__body p { font-size: .88rem; color: var(--text-soft); flex: 1; }
+.tm-card .tags { margin-top: .35rem; }
+
+.techmate__cta { margin-top: 2.5rem; }
+.techmate__cta-inner {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 1.4rem 1.6rem; box-shadow: var(--shadow-sm);
+}
+.techmate__cta-inner p { font-weight: 600; }
+.techmate__cta-inner .icon { width: 1.1em; height: 1.1em; }
+
+/* ---------- Contact channels (email + WhatsApp) ---------- */
+.contact__channels { display: flex; flex-wrap: wrap; gap: .6rem; }
+.contact__wa { color: #128c7e; border-color: color-mix(in srgb, #25d366 55%, transparent); }
+.contact__wa:hover { background: color-mix(in srgb, #25d366 14%, transparent); }
+
 /* ---------- Reveal on scroll ---------- */
 .reveal { opacity: 0; transform: translateY(22px); transition: opacity .6s var(--ease), transform .6s var(--ease); }
 .reveal.is-visible { opacity: 1; transform: none; }
 
 /* ---------- Responsive ---------- */
+@media (max-width: 1080px) {
+  .nav__links { gap: 1.1rem; font-size: .86rem; }
+}
+@media (max-width: 900px) {
+  .nav__links {
+    position: fixed; inset: 68px 0 auto 0; flex-direction: column; gap: 0;
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    padding: .5rem 1.25rem 1.25rem; margin: 0;
+    box-shadow: var(--shadow-md);
+    transform: translateY(-12px); opacity: 0; pointer-events: none;
+    transition: .25s var(--ease);
+  }
+  .nav__links.is-open { transform: none; opacity: 1; pointer-events: auto; }
+  .nav__links a { padding: .85rem 0; border-bottom: 1px solid var(--border); }
+  .nav__links a:last-child { border-bottom: none; }
+  .nav__brand-text { display: none; }
+  .nav__burger { display: flex; }
+  .nav__actions .btn--ghost { display: none; }
+}
 @media (max-width: 960px) {
   .hero__inner { grid-template-columns: 1fr; gap: 2.5rem; }
   .hero__visual { order: -1; min-height: 0; gap: 1.25rem; }
   .hero__avatar { width: min(200px, 55%); }
   .skills, .projects { grid-template-columns: repeat(2, 1fr); }
+  .pub-grid { grid-template-columns: repeat(2, 1fr); }
+  .techmate-grid { grid-template-columns: repeat(2, 1fr); }
   .edu-grid { grid-template-columns: 1fr; gap: 2rem; }
   .training-grid { grid-template-columns: repeat(2, 1fr); }
   .contact { grid-template-columns: 1fr; gap: 2rem; padding: 2.5rem 1.75rem; }
@@ -671,6 +765,7 @@ button { font: inherit; color: inherit; }
   .hero { padding-top: 6.5rem; }
   .section { padding: 4rem 0; }
   .skills, .projects { grid-template-columns: 1fr; }
+  .pub-grid, .techmate-grid { grid-template-columns: 1fr; }
   .bar { grid-template-columns: 110px 1fr; }
   .hero__stats { gap: 1.5rem; }
   .contact { padding: 2.5rem 1.25rem; }

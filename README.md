@@ -83,8 +83,9 @@ Halaman lain:
 Akses melalui tautan **Panel Admin** di footer, atau langsung ke `admin.html`.
 
 - **Login default:** username `admin` — password `admin123` (ubah di menu **Pengaturan**).
-- **Menu:** Ringkasan · Profil & Hero · Tentang Saya · Keahlian · Proyek · Pengalaman · Pendidikan & Sertifikasi · Kontak · Pengaturan.
-- **CRUD** untuk proyek, pengalaman, pendidikan, sertifikasi, pelatihan, minat, filosofi, keahlian, kategori, dan tautan sosial.
+- **Menu:** Ringkasan · Profil & Hero · Tentang Saya · Keahlian · Publikasi Karya · Proyek · Pengalaman · Pendidikan & Sertifikasi · Techmate · Kontak · Pengaturan.
+- **CRUD** untuk proyek, publikasi karya, kursus Techmate, pengalaman, pendidikan, sertifikasi, pelatihan, minat, filosofi, keahlian, kategori, dan tautan sosial.
+- **Gambar:** setiap publikasi dan kursus Techmate dapat memuat gambar/sampul yang diunggah dari perangkat (otomatis diperkecil) atau ditempel sebagai URL.
 - **Ekspor/Impor JSON** untuk mencadangkan atau memindahkan konten; **Reset** ke default.
 - **Publikasi ke semua perangkat:** simpan konten ke file `content.json` di repo GitHub (menu **Pengaturan → Publikasi ke semua perangkat**), sehingga perubahan tampil di HP, tablet, dan browser lain — tidak hanya di perangkat tempat menyunting.
 - Perubahan lokal disimpan di `localStorage` browser sebagai *draft/pratinjau*, sedangkan situs publik (`js/main.js`) mengambil versi terbit dari `content.json` setiap kali dibuka.
@@ -117,6 +118,14 @@ Setiap kartu memuat:
 - Kategori, tahun, dan tombol **Detail** yang membuka isi kartu secara inline (expand/collapse) berisi: Solusi & Peran, Dampak (bullet berorientasi hasil), seluruh tag teknologi, dan semua tautan. Tidak ada popup/modal.
 
 Kartu dapat difilter berdasarkan kategori: Web App, Mobile, Branding.
+
+## Seksi Publikasi Karya & Techmate
+
+Dua seksi baru (keduanya diatur dari panel admin):
+
+- **Publikasi Karya** (`#publikasi`) — di atas Portofolio. Menampilkan **Penelitian**, **Pengabdian Masyarakat**, dan **Buku** dengan filter kategori. Setiap karya memiliki judul, tahun, jurnal/penerbit/lokasi, deskripsi, tautan, dan gambar/sampul opsional.
+- **Techmate** (`#techmate`) — di atas Kontak. Menampilkan **Portofolio Kursus Privat**: Ms Office, Ms Excel, Video Editing, Digital Marketing, AI Optimization (dapat ditambah/ubah). Setiap kursus bisa memuat gambar, deskripsi, dan tag, plus tombol **Tanya via WhatsApp**.
+- **WhatsApp** juga tersedia di seksi **Kontak** (tombol WhatsApp muncul bila nomor diisi). Isi nomor pada menu **Kontak → Nomor WhatsApp** dengan format internasional tanpa `+`, contoh `6281234567890`.
 
 ## Fitur tambahan
 

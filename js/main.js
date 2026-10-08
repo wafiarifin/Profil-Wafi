@@ -13,7 +13,7 @@
     );
   const safeUrl = (url, fallback = "#") => {
     const u = String(url ?? "").trim();
-    return /^(https?:|mailto:|tel:|#|\/|assets\/)/i.test(u) ? u : fallback;
+    return /^(https?:|mailto:|tel:|#|\/|assets\/|data:image\/)/i.test(u) ? u : fallback;
   };
 
   /* =========================================================
@@ -428,6 +428,123 @@
   }
 
   /* =========================================================
+     7b) RENDER — Publikasi Karya
+     ========================================================= */
+  const pub = content.publications || { categories: [], items: [] };
+  const pubGrid = $("#publicationsGrid");
+  const pubEmpty = $("#publicationsEmpty");
+  const pubFiltersWrap = $("#publicationFilters");
+  const pubTypeLabel = (id) => (pub.categories.find((c) => c.id === id) || {}).label || id;
+  const pubAccent = (id) =>
+    ({ penelitian: "#4f46e5", pengabdian: "#059669", buku: "#b45309" })[id] || "#4f46e5";
+
+  setText(".section#publikasi .kicker", pub.kicker);
+  setText(".section#publikasi .section__title", pub.title);
+  setText("#publicationsLead", pub.lead);
+
+  function pubCard(p) {
+    const img = String(p.image || "").trim();
+    const media = img
+      ? `<img src="${esc(safeUrl(img))}" alt="${esc(p.title)}" loading="lazy" decoding="async" />`
+      : `<span class="pub-card__ph" aria-hidden="true">${esc(pubTypeLabel(p.type))}</span>`;
+    const link = p.url
+      ? `<a class="pub-card__link" href="${esc(safeUrl(p.url))}" target="_blank" rel="noopener">Baca selengkapnya
+           <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></a>`
+      : "";
+    return `
+      <article class="pub-card" style="--accent:${esc(pubAccent(p.type))}">
+        <div class="pub-card__media">
+          ${media}
+          <span class="pub-card__year">${esc(p.year)}</span>
+        </div>
+        <div class="pub-card__body">
+          <p class="pub-card__type">${esc(pubTypeLabel(p.type))}</p>
+          <h3 class="pub-card__title">${esc(p.title)}</h3>
+          ${p.venue ? `<p class="pub-card__venue">${esc(p.venue)}</p>` : ""}
+          ${p.desc ? `<p class="pub-card__desc">${esc(p.desc)}</p>` : ""}
+          ${link}
+        </div>
+      </article>`;
+  }
+
+  function renderPubs(filter = "all") {
+    const list = filter === "all" ? pub.items : pub.items.filter((p) => p.type === filter);
+    if (pubGrid) pubGrid.innerHTML = list.map(pubCard).join("");
+    if (pubEmpty) pubEmpty.hidden = list.length > 0;
+  }
+
+  if (pubFiltersWrap) {
+    pubFiltersWrap.innerHTML =
+      `<button class="filter is-active" data-pubfilter="all" role="tab" aria-selected="true">Semua</button>` +
+      pub.categories
+        .map((c) => `<button class="filter" data-pubfilter="${esc(c.id)}" role="tab" aria-selected="false">${esc(c.label)}</button>`)
+        .join("");
+    const pubFilters = $$("#publicationFilters .filter");
+    pubFilters.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        pubFilters.forEach((b) => { b.classList.remove("is-active"); b.setAttribute("aria-selected", "false"); });
+        btn.classList.add("is-active");
+        btn.setAttribute("aria-selected", "true");
+        renderPubs(btn.dataset.pubfilter);
+      });
+    });
+  }
+  renderPubs();
+
+  /* =========================================================
+     7c) RENDER — Techmate (Kursus Privat)
+     ========================================================= */
+  const tm = content.techmate || { courses: [] };
+  const tmGrid = $("#techmateGrid");
+  const tmCta = $("#techmateCta");
+
+  setText(".section#techmate .kicker", tm.kicker);
+  setText(".section#techmate .section__title", tm.title);
+  setText("#techmateLead", tm.lead);
+
+  function courseCard(c) {
+    const img = String(c.image || "").trim();
+    const media = img
+      ? `<img src="${esc(safeUrl(img))}" alt="${esc(c.title)}" loading="lazy" decoding="async" />`
+      : `<span class="tm-card__ph" aria-hidden="true">${esc(c.title)}</span>`;
+    const tags = (c.tags || []).length
+      ? `<ul class="tags">${c.tags.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>`
+      : "";
+    return `
+      <article class="tm-card">
+        <div class="tm-card__media">${media}</div>
+        <div class="tm-card__body">
+          <h3>${esc(c.title)}</h3>
+          <p>${esc(c.desc)}</p>
+          ${tags}
+        </div>
+      </article>`;
+  }
+  if (tmGrid) tmGrid.innerHTML = tm.courses.map(courseCard).join("");
+
+  // Tautan WhatsApp (dipakai Techmate & Kontak)
+  const waLink = (number, message) => {
+    const n = String(number || "").replace(/[^\d]/g, "");
+    if (!n) return "";
+    const text = message ? "?text=" + encodeURIComponent(message) : "";
+    return `https://wa.me/${n}${text}`;
+  };
+  const waIcon = `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2z"/><path d="M8.5 7.5c.3-.6.6-.6.9-.6h.7c.2 0 .5 0 .7.6l.9 2c.1.3 0 .5-.1.7l-.6.7c-.1.2-.2.3 0 .6.5.9 1.2 1.6 2.1 2.1.3.2.4.1.6 0l.7-.6c.2-.2.4-.2.7-.1l2 .9c.5.2.6.4.6.7v.7c0 .3 0 .6-.6.9-.6.3-1.4.5-2.3.3-2.6-.6-5.5-3.5-6.1-6.1-.2-.9 0-1.7.3-2.3z"/></svg>`;
+  const contactInfo = content.contact || {};
+  const tmWaLink = waLink(
+    tm.whatsapp || contactInfo.whatsapp,
+    tm.whatsappMessage || "Halo, saya ingin bertanya tentang kursus privat."
+  );
+  if (tmCta) {
+    tmCta.innerHTML = tmWaLink
+      ? `<div class="techmate__cta-inner">
+           <p>Tertarik mengikuti salah satu kelas? Konsultasi gratis lewat WhatsApp.</p>
+           <a class="btn btn--primary" href="${esc(tmWaLink)}" target="_blank" rel="noopener">${waIcon} Tanya via WhatsApp</a>
+         </div>`
+      : "";
+  }
+
+  /* =========================================================
      8) RENDER — Kontak & Footer
      ========================================================= */
   const ct = content.contact;
@@ -442,7 +559,18 @@
       ${esc(ct.email)}`;
   }
 
+  // Tombol WhatsApp pada kontak
+  const waContact = $("#waContact");
+  if (waContact) {
+    const waHref = waLink(ct.whatsapp, ct.whatsappMessage || "Halo, saya ingin menghubungi Anda.");
+    if (waHref) {
+      waContact.setAttribute("href", waHref);
+      waContact.removeAttribute("hidden");
+    }
+  }
+
   const socialIcons = {
+    whatsapp: `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2z"/><path d="M8.5 7.5c.3-.6.6-.6.9-.6h.7c.2 0 .5 0 .7.6l.9 2c.1.3 0 .5-.1.7l-.6.7c-.1.2-.2.3 0 .6.5.9 1.2 1.6 2.1 2.1.3.2.4.1.6 0l.7-.6c.2-.2.4-.2.7-.1l2 .9c.5.2.6.4.6.7v.7c0 .3 0 .6-.6.9-.6.3-1.4.5-2.3.3-2.6-.6-5.5-3.5-6.1-6.1-.2-.9 0-1.7.3-2.3z"/></svg>`,
     linkedin: `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0zM.5 8.5h4v12h-4zM8.5 8.5h3.8v1.7h.05c.53-.9 1.83-1.85 3.77-1.85 4.03 0 4.78 2.5 4.78 5.75v6.4h-4v-5.7c0-1.36-.03-3.1-1.9-3.1-1.9 0-2.2 1.48-2.2 3v5.8h-4z"/></svg>`,
     github: `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-4 1.5-4-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12 12 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.4.4-.5 1-.5 1.7V21"/></svg>`,
     dribbble: `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8.6 2.6c4.2 4.6 6.3 9.8 6.9 16.8M2.4 10.3c6.6 0 12.7-1.6 17.2-5.3M3.6 17.5c3.1-3.6 7.2-5.3 12.4-5.1"/></svg>`,

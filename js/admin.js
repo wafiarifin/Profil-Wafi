@@ -44,6 +44,9 @@
     "education.certs": { abbr: "", title: "", org: "", year: "", id: "", url: "" },
     "education.training": { year: "", title: "", org: "", note: "" },
     "contact.socials": { label: "", url: "", icon: "linkedin" },
+    "publications.items": { id: "", type: "penelitian", year: "", title: "", venue: "", desc: "", url: "", image: "" },
+    "publications.categories": { id: "", label: "" },
+    "techmate.courses": { id: "", title: "", desc: "", image: "", tags: [] },
   };
   const templateFor = (base) => {
     if (base === "about.paragraphs") return "";
@@ -150,6 +153,82 @@
       return `<div class="afield"><label for="${id}">${esc(label)}</label><input id="${id}" type="number" min="0" max="100" data-path="${esc(path)}" value="${esc(val ?? "")}"></div>`;
 
     return `<div class="afield"><label for="${id}">${esc(label)}</label><input id="${id}" type="text" data-path="${esc(path)}" value="${esc(val ?? "")}" placeholder="${esc(opts.placeholder || "")}">${hint}</div>`;
+  }
+
+  /* Kolom gambar dengan unggah dari perangkat atau tempel URL. */
+  function imageField(path, label, opts = {}) {
+    const val = String(getPath(state, path) || "");
+    const id = "img_" + path.replace(/[^a-z0-9]/gi, "_");
+    const isData = val.startsWith("data:");
+    return `
+      <div class="aimg" data-imgpath="${esc(path)}">
+        <label for="${id}">${esc(label)}${opts.hint ? ` <small>${esc(opts.hint)}</small>` : ""}</label>
+        <div class="aimg__row">
+          <div class="aimg__preview">${val ? `<img alt="" src="${esc(val)}" />` : `<span>Belum ada gambar</span>`}</div>
+          <div class="aimg__ctrl">
+            <input id="${id}" class="aimg__file" type="file" accept="image/*" hidden />
+            <label class="btn btn--outline btn--sm" for="${id}">Unggah gambar</label>
+            <button type="button" class="btn btn--ghost btn--sm" data-imgclear="${esc(path)}">Hapus</button>
+            <small class="aimg__info"></small>
+          </div>
+        </div>
+        <input type="text" class="aimg__url" data-imgurl="${esc(path)}" value="${isData ? "" : esc(val)}" placeholder="atau tempel URL gambar (https://... / assets/...)" />
+      </div>`;
+  }
+
+  function initImageFields() {
+    $$(".aimg", dashContent).forEach((box) => {
+      const path = box.dataset.imgpath;
+      const file = $(".aimg__file", box);
+      const url = $(".aimg__url", box);
+      const preview = $(".aimg__preview", box);
+      const info = $(".aimg__info", box);
+      const paint = (src) => {
+        preview.innerHTML = src ? `<img alt="" src="${esc(src)}" />` : `<span>Belum ada gambar</span>`;
+      };
+
+      file?.addEventListener("change", async () => {
+        const f = file.files && file.files[0];
+        if (!f) return;
+        try {
+          if (info) info.textContent = "Memproses…";
+          const dataUrl = await fileToDataUrl(f, 1200, 0.85);
+          if (dataUrl.length > 2500000) {
+            if (info) info.textContent = "Gambar terlalu besar (maks ~2 MB).";
+            file.value = "";
+            return;
+          }
+          setPath(state, path, dataUrl);
+          dirty = true;
+          setStatus("Ada perubahan belum disimpan");
+          paint(dataUrl);
+          if (url) url.value = "";
+          if (info) info.textContent = `Terunggah: ${f.name}`;
+        } catch {
+          if (info) info.textContent = "Gagal memuat gambar. Coba file lain.";
+        }
+        file.value = "";
+      });
+
+      url?.addEventListener("input", () => {
+        const v = url.value.trim();
+        setPath(state, path, v);
+        dirty = true;
+        setStatus("Ada perubahan belum disimpan");
+        paint(v);
+        if (info) info.textContent = "";
+      });
+
+      box.addEventListener("click", (e) => {
+        if (!e.target.closest("[data-imgclear]")) return;
+        setPath(state, path, "");
+        dirty = true;
+        setStatus("Ada perubahan belum disimpan");
+        paint("");
+        if (url) url.value = "";
+        if (info) info.textContent = "Gambar dihapus.";
+      });
+    });
   }
 
   function nextItemNo(base) {
@@ -623,6 +702,105 @@
       </div>`;
   }
 
+  /* ---- View Publikasi Karya ---- */
+  const pubCatOptions = () => ((state.publications && state.publications.categories) || []).map((c) => ({ value: c.id, label: c.label }));
+
+  function publicationRepeater() {
+    const arr = (state.publications && state.publications.items) || [];
+    const cats = pubCatOptions();
+    return (
+      arr
+        .map(
+          (p, i) => `
+      <div class="repeater__item">
+        <div class="repeater__head">
+          <span>Publikasi #${i + 1} — ${esc(p.title || "(belum diberi judul)")}</span>
+          <button type="button" class="repeater__remove" data-remove="publications.items" data-index="${i}">Hapus</button>
+        </div>
+        <div class="agrid agrid--3">
+          ${field(`publications.items[${i}].id`, "ID unik")}
+          ${field(`publications.items[${i}].year`, "Tahun")}
+          ${field(`publications.items[${i}].type`, "Kategori", { type: "select", options: cats })}
+        </div>
+        ${field(`publications.items[${i}].title`, "Judul")}
+        ${field(`publications.items[${i}].venue`, "Jurnal / Penerbit / Lokasi")}
+        ${field(`publications.items[${i}].desc`, "Deskripsi singkat", { type: "textarea", rows: 2 })}
+        ${field(`publications.items[${i}].url`, "URL tautan")}
+        ${imageField(`publications.items[${i}].image`, "Gambar / Sampul")}
+      </div>`
+        )
+        .join("") + `<button type="button" class="repeater__add" data-add="publications.items">+ Tambah publikasi</button>`
+    );
+  }
+
+  function publikasiView() {
+    return `
+      <div class="panel">
+        <h3 class="panel__title">Judul &amp; pengantar</h3>
+        ${field("publications.kicker", "Kicker")}
+        ${field("publications.title", "Judul seksi")}
+        ${field("publications.lead", "Deskripsi singkat", { type: "textarea", rows: 2 })}
+      </div>
+      <div class="panel">
+        <h3 class="panel__title">Kategori</h3>
+        <p class="panel__desc">Contoh: Penelitian, Pengabdian Masyarakat, Buku.</p>
+        ${repeater("publications.categories", [
+          { key: "id", label: "ID kategori" },
+          { key: "label", label: "Label" },
+        ], { label: "Kategori" })}
+      </div>
+      <div class="panel">
+        <h3 class="panel__title">Daftar publikasi</h3>
+        <p class="panel__desc">Setiap karya bisa memuat gambar/sampul, tautan, dan keterangan.</p>
+        ${publicationRepeater()}
+      </div>`;
+  }
+
+  /* ---- View Techmate (Kursus Privat) ---- */
+  function courseRepeater() {
+    const arr = (state.techmate && state.techmate.courses) || [];
+    return (
+      arr
+        .map(
+          (c, i) => `
+      <div class="repeater__item">
+        <div class="repeater__head">
+          <span>Kursus #${i + 1} — ${esc(c.title || "(belum diberi nama)")}</span>
+          <button type="button" class="repeater__remove" data-remove="techmate.courses" data-index="${i}">Hapus</button>
+        </div>
+        <div class="agrid">
+          ${field(`techmate.courses[${i}].id`, "ID unik")}
+          ${field(`techmate.courses[${i}].title`, "Nama kursus")}
+        </div>
+        ${field(`techmate.courses[${i}].desc`, "Deskripsi", { type: "textarea", rows: 2 })}
+        ${field(`techmate.courses[${i}].tags`, "Tag (pisah koma)", { type: "list" })}
+        ${imageField(`techmate.courses[${i}].image`, "Gambar kursus")}
+      </div>`
+        )
+        .join("") + `<button type="button" class="repeater__add" data-add="techmate.courses">+ Tambah kursus</button>`
+    );
+  }
+
+  function techmateView() {
+    return `
+      <div class="panel">
+        <h3 class="panel__title">Judul &amp; pengantar</h3>
+        ${field("techmate.kicker", "Kicker")}
+        ${field("techmate.title", "Judul seksi")}
+        ${field("techmate.lead", "Deskripsi singkat", { type: "textarea", rows: 2 })}
+      </div>
+      <div class="panel">
+        <h3 class="panel__title">WhatsApp Techmate</h3>
+        ${field("techmate.whatsapp", "Nomor WhatsApp", { hint: "Format internasional tanpa +, contoh: 6281234567890. Kosongkan untuk memakai nomor pada menu Kontak." })}
+        ${field("techmate.whatsappMessage", "Pesan otomatis WhatsApp", { type: "textarea", rows: 2 })}
+      </div>
+      <div class="panel">
+        <h3 class="panel__title">Daftar kursus</h3>
+        <p class="panel__desc">Contoh: Ms Office, Ms Excel, Video Editing, Digital Marketing, AI Optimization. Setiap kursus bisa memuat gambar.</p>
+        ${courseRepeater()}
+      </div>`;
+  }
+
   function kontakView() {
     return `
       <div class="panel">
@@ -630,6 +808,10 @@
         ${field("contact.title", "Judul")}
         ${field("contact.sub", "Deskripsi", { type: "textarea", rows: 2 })}
         ${field("contact.email", "Email profesional")}
+        <div class="agrid">
+          ${field("contact.whatsapp", "Nomor WhatsApp", { hint: "Format internasional tanpa +, contoh: 6281234567890." })}
+          ${field("contact.whatsappMessage", "Pesan otomatis WhatsApp")}
+        </div>
       </div>
       <div class="panel">
         <h3 class="panel__title">Akun profesional &amp; tautan</h3>
@@ -640,6 +822,7 @@
             { value: "linkedin", label: "LinkedIn" },
             { value: "github", label: "GitHub" },
             { value: "dribbble", label: "Dribbble" },
+            { value: "whatsapp", label: "WhatsApp" },
             { value: "download", label: "Unduh" },
           ] },
         ], { label: "Tautan" })}
@@ -733,16 +916,19 @@
     profil: () => VIEWS.profil(),
     tentang: tentangView,
     keahlian: keahlianView,
+    publikasi: publikasiView,
     proyek: proyekView,
     pengalaman: pengalamanView,
     pendidikan: pendidikanView,
+    techmate: techmateView,
     kontak: kontakView,
     pengaturan: pengaturanView,
   };
   const titles = {
     overview: "Ringkasan", profil: "Profil & Hero", tentang: "Tentang Saya",
-    keahlian: "Keahlian", proyek: "Proyek", pengalaman: "Pengalaman",
-    pendidikan: "Pendidikan & Sertifikasi", kontak: "Kontak", pengaturan: "Pengaturan",
+    keahlian: "Keahlian", publikasi: "Publikasi Karya", proyek: "Proyek",
+    pengalaman: "Pengalaman", pendidikan: "Pendidikan & Sertifikasi",
+    techmate: "Techmate", kontak: "Kontak", pengaturan: "Pengaturan",
   };
 
   const dashContent = $("#dashContent");
@@ -755,6 +941,7 @@
     $("#viewTitle").textContent = titles[view] || "Panel";
     dashContent.innerHTML = viewRenderers[view] ? viewRenderers[view]() : "";
     if (view === "profil") { initPhotoPanel(); initFaviconPanel(); }
+    initImageFields();
     $$("#dashNav button").forEach((b) => b.classList.toggle("is-active", b.dataset.view === view));
     saveBtn.style.display = view === "overview" || view === "pengaturan" ? "none" : "";
     resetViewBtn.hidden = view === "overview" || view === "pengaturan";
