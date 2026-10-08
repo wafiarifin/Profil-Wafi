@@ -379,10 +379,12 @@ window.CMS = (() => {
   }
 
   // Dipakai situs publik (index.html): utamakan konten terbit dari server.
-  // Namun bila perangkat ini (mis. komputer admin) punya draft belum terbit,
-  // tampilkan draft lokal agar pratinjau tetap terlihat.
+  // Namun bila perangkat ini (mis. komputer admin) punya simpanan lokal,
+  // tampilkan versi lokal agar editan tidak hilang & bisa dipratinjau.
   async function loadSite() {
-    if (hasDraft() && localStorage.getItem(KEY)) return load();
+    try {
+      if (localStorage.getItem(KEY)) return load();
+    } catch { /* mode privasi: localStorage tidak tersedia */ }
     return loadRemote();
   }
   function exportJSON() {
