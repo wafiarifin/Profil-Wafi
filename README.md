@@ -100,6 +100,8 @@ Akses melalui tautan **Panel Admin** di footer, atau langsung ke `admin.html`.
 4. Muat ulang situs di HP/tab lain — konten terbaru otomatis diambil dari server (`fetch` dengan `cache: no-store`).
 
 > Tanpa konfigurasi GitHub, perubahan hanya tersimpan lokal. Alternatif manual: **Ekspor JSON**, lalu timpa file `content.json` di repo dan commit.
+>
+> **Cara termudah tanpa token:** klik **Ekspor JSON**, lalu jalankan `node publish.js` di folder repo (skrip menulis `content.json` dan otomatis commit & push memakai login git yang sudah tersimpan).
 
 #### Kenapa dulu hanya terlihat di desktop?
 
