@@ -105,6 +105,93 @@
     return items + `<button type="button" class="repeater__add" data-add="${esc(base)}">+ Tambah ${esc(opts.label || "item")}</button>`;
   }
 
+  /* ---------- Photo upload ---------- */
+  const DEFAULT_PHOTO = "assets/avatar.svg";
+
+  function fileToDataUrl(file, maxSize = 900, quality = 0.85) {
+    return new Promise((resolve, reject) => {
+      if (!file || !file.type.startsWith("image/")) return reject(new Error("Bukan gambar"));
+      const reader = new FileReader();
+      reader.onerror = () => reject(reader.error);
+      reader.onload = () => {
+        const image = new Image();
+        image.onerror = () => reject(new Error("Gagal memuat gambar"));
+        image.onload = () => {
+          const scale = Math.min(1, maxSize / Math.max(image.width, image.height));
+          const w = Math.max(1, Math.round(image.width * scale));
+          const h = Math.max(1, Math.round(image.height * scale));
+          const canvas = document.createElement("canvas");
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(image, 0, 0, w, h);
+          const isPng = /png/i.test(file.type);
+          resolve(canvas.toDataURL(isPng ? "image/png" : "image/jpeg", quality));
+        };
+        image.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function initPhotoPanel() {
+    const preview = $("#photoPreview");
+    const input = $("#photoInput");
+    const clearBtn = $("#photoClear");
+    const urlInput = $("#photoUrl");
+    const info = $("#photoInfo");
+    if (!preview || !input) return;
+
+    const current = getPath(state, "hero.photoUrl");
+    const isData = typeof current === "string" && current.startsWith("data:");
+    const paint = (src) => { preview.src = src || DEFAULT_PHOTO; };
+
+    paint(current || DEFAULT_PHOTO);
+    if (urlInput) urlInput.value = isData ? "" : (current || "");
+    if (info) info.textContent = isData ? "Foto diunggah dari perangkat (tersimpan di browser)." : "";
+
+    input.addEventListener("change", async () => {
+      const file = input.files && input.files[0];
+      if (!file) return;
+      try {
+        if (info) info.textContent = "Memproses gambar…";
+        const dataUrl = await fileToDataUrl(file);
+        if (dataUrl.length > 2500000) {
+          if (info) info.textContent = "Gambar terlalu besar. Pilih gambar lain (maks ~2 MB).";
+          input.value = "";
+          return;
+        }
+        setPath(state, "hero.photoUrl", dataUrl);
+        dirty = true;
+        setStatus("Ada perubahan belum disimpan");
+        paint(dataUrl);
+        if (urlInput) urlInput.value = "";
+        if (info) info.textContent = `Terunggah: ${file.name}`;
+      } catch {
+        if (info) info.textContent = "Gagal memuat gambar. Coba file lain.";
+      }
+      input.value = "";
+    });
+
+    clearBtn?.addEventListener("click", () => {
+      setPath(state, "hero.photoUrl", DEFAULT_PHOTO);
+      dirty = true;
+      setStatus("Ada perubahan belum disimpan");
+      paint(DEFAULT_PHOTO);
+      if (urlInput) urlInput.value = DEFAULT_PHOTO;
+      if (info) info.textContent = "Kembali ke foto default.";
+    });
+
+    urlInput?.addEventListener("input", () => {
+      const v = urlInput.value.trim();
+      setPath(state, "hero.photoUrl", v || DEFAULT_PHOTO);
+      dirty = true;
+      setStatus("Ada perubahan belum disimpan");
+      paint(v || DEFAULT_PHOTO);
+      if (info) info.textContent = "";
+    });
+  }
+
   /* ---------- Views ---------- */
   const catOptions = () => state.categories.map((c) => ({ value: c.id, label: c.label }));
 
@@ -193,6 +280,24 @@
           <div class="agrid">
             ${field("brand.initials", "Inisial logo")}
             ${field("brand.name", "Nama pada navbar")}
+          </div>
+        </div>
+        <div class="panel">
+          <h3 class="panel__title">Foto Profil</h3>
+          <p class="panel__desc">Unggah foto dari perangkat (JPG/PNG/WebP). Gambar otomatis diperkecil agar hemat penyimpanan browser.</p>
+          <div class="photo">
+            <div class="photo__preview"><img id="photoPreview" src="assets/avatar.svg" alt="Pratinjau foto profil" /></div>
+            <div class="photo__ctrl">
+              <input id="photoInput" type="file" accept="image/*" hidden />
+              <label class="btn btn--outline btn--sm" for="photoInput">Pilih &amp; unggah foto</label>
+              <button type="button" class="btn btn--ghost btn--sm" id="photoClear">Gunakan default</button>
+              <small id="photoInfo"></small>
+            </div>
+          </div>
+          <div class="afield">
+            <label for="photoUrl">Atau tempel URL foto</label>
+            <input id="photoUrl" type="text" placeholder="Contoh: assets/foto.jpg atau https://..." />
+            <small>Biarkan kosong untuk memakai foto default.</small>
           </div>
         </div>
         <div class="panel">
@@ -457,6 +562,7 @@
     currentView = view;
     $("#viewTitle").textContent = titles[view] || "Panel";
     dashContent.innerHTML = viewRenderers[view] ? viewRenderers[view]() : "";
+    if (view === "profil") initPhotoPanel();
     $$("#dashNav button").forEach((b) => b.classList.toggle("is-active", b.dataset.view === view));
     saveBtn.style.display = view === "overview" || view === "pengaturan" ? "none" : "";
     resetViewBtn.hidden = view === "overview" || view === "pengaturan";

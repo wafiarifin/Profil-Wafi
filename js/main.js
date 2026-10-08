@@ -82,15 +82,22 @@
     a.setAttribute("href", safeUrl(content.hero.cvUrl));
   });
 
-  // Fallback awal avatar
+  // Foto profil: pakai sumber dari CMS (URL atau hasil unggahan), dengan fallback inisial
   const avatarImg = $(".hero__avatar img");
-  avatarImg?.addEventListener("error", () => {
-    const holder = document.createElement("div");
-    holder.className = "hero__avatar-fallback";
-    holder.setAttribute("aria-label", "Foto profil belum tersedia");
-    holder.textContent = content.brand.initials;
-    avatarImg.replaceWith(holder);
-  });
+  if (avatarImg) {
+    avatarImg.alt = `Foto profil ${content.brand.name}`;
+    avatarImg.addEventListener("error", () => {
+      const holder = document.createElement("div");
+      holder.className = "hero__avatar-fallback";
+      holder.setAttribute("aria-label", "Foto profil belum tersedia");
+      holder.textContent = content.brand.initials;
+      avatarImg.replaceWith(holder);
+    });
+    const photo = String(content.hero.photoUrl || "").trim();
+    if (photo && /^(data:image\/|https?:\/\/|assets\/|\/|\.\/)/i.test(photo)) {
+      avatarImg.src = photo;
+    }
+  }
 
   /* =========================================================
      3) RENDER — Tentang Saya

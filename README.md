@@ -132,7 +132,7 @@ Poin penting:
 - **Nama, peran, kontak, SEO** kini satu sumber di `content.js` (`brand`, `hero`, `meta`) dan otomatis tersinkron ke hero, navbar, footer, serta JSON-LD.
 - **Warna/tema**: ubah design token di `:root` dan `[data-theme="dark"]` pada `css/style.css`.
 - **CV**: ganti `assets/cv.pdf` atau ubah `hero.cvUrl`.
-- **Foto profil**: ganti `assets/avatar.svg` dengan foto Anda (rasio 1:1, mis. `assets/foto.jpg`) lalu ubah `src` pada `.hero__avatar img` di `index.html`. Jika gagal dimuat, inisial otomatis ditampilkan.
+- **Foto profil**: unggah lewat panel admin — menu **Profil & Hero → Foto Profil** (Pilih & unggah foto). Gambar otomatis diperkecil dan disimpan di browser. Bisa juga menempelkan URL pada kolom "Atau tempel URL foto", atau ganti langsung `assets/avatar.svg` dan ubah `hero.photoUrl` di `js/content.js`. Jika gagal dimuat, inisial otomatis ditampilkan.
 
 ### Panduan foto profil profesional
 

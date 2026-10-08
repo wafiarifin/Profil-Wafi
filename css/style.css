@@ -241,20 +241,6 @@ button { font: inherit; color: inherit; }
   box-shadow: var(--shadow-md); white-space: nowrap;
 }
 
-.hero__card {
-  position: absolute; right: -6px; bottom: -6px; z-index: 3;
-  width: min(300px, 74%);
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); box-shadow: var(--shadow-lg);
-  overflow: hidden; animation: float 6s ease-in-out infinite;
-}
-@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
-.hero__card-row { display: flex; gap: .45rem; padding: .85rem 1rem; border-bottom: 1px solid var(--border); }
-.chip { width: 11px; height: 11px; border-radius: 50%; }
-.chip--green { background: #27c93f; } .chip--amber { background: #ffbd2e; } .chip--red { background: #ff5f56; }
-.hero__code { padding: 1.1rem 1.25rem; font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; font-size: .84rem; line-height: 1.75; overflow-x: auto; }
-.c-k { color: #c678dd; } .c-v { color: #61afef; } .c-p { color: #e06c75; } .c-s { color: #98c379; } .c-b { color: #d19a66; }
-
 /* ---------- Sections ---------- */
 .section { padding: 5.5rem 0; }
 .section--alt { background: var(--bg-alt); }
@@ -656,7 +642,6 @@ button { font: inherit; color: inherit; }
   .hero__inner { grid-template-columns: 1fr; gap: 2.5rem; }
   .hero__visual { order: -1; min-height: 0; gap: 1.25rem; }
   .hero__avatar { width: min(200px, 55%); }
-  .hero__card { position: relative; right: auto; bottom: auto; width: min(360px, 100%); }
   .skills, .projects { grid-template-columns: repeat(2, 1fr); }
   .edu-grid { grid-template-columns: 1fr; gap: 2rem; }
   .training-grid { grid-template-columns: repeat(2, 1fr); }

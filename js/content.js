@@ -27,6 +27,7 @@ window.CMS = (() => {
         "Web Developer & Technical Educator dengan pengalaman 5+ tahun membangun produk digital dari konsep hingga rilis produksi. Fokus keahlian saya ada pada performa, aksesibilitas, dan pengalaman pengguna yang sederhana namun berdampak. Saya membantu tim mengubah kebutuhan rumit menjadi antarmuka yang cepat, mudah dipakai, dan mudah dirawat.",
       location: "Jakarta, Indonesia",
       email: "andi@example.com",
+      photoUrl: "assets/avatar.svg",
       cvUrl: "assets/cv.pdf",
       stats: [
         { value: "5+", label: "Tahun pengalaman" },
