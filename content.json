@@ -6,7 +6,8 @@
   },
   "brand": {
     "initials": "WA",
-    "name": "Wafi Arifin"
+    "name": "Wafi Arifin",
+    "faviconUrl": "assets/favicon.svg"
   },
   "hero": {
     "availability": "Terbuka untuk peluang kerja sama",

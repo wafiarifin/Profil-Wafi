@@ -21,7 +21,7 @@ window.CMS = (() => {
       description:
         "Web Developer & Technical Educator dengan pengalaman 5+ tahun membangun produk digital yang cepat, aksesibel, dan berdampak.",
     },
-    brand: { initials: "AD", name: "Andi Pratama" },
+    brand: { initials: "AD", name: "Andi Pratama", faviconUrl: "assets/favicon.svg" },
     hero: {
       availability: "Terbuka untuk peluang kerja sama",
       name: "Andi Pratama",
@@ -439,10 +439,27 @@ window.CMS = (() => {
     return true;
   }
 
+  // Terapkan favicon dari CMS ke <head>. Mendukung URL, path, atau data URL.
+  function applyFavicon(content) {
+    const url = String((content && content.brand && content.brand.faviconUrl) || "").trim();
+    if (!url || typeof document === "undefined") return;
+    const setLink = (rel) => {
+      let el = document.head.querySelector('link[rel="' + rel + '"]');
+      if (!el) {
+        el = document.createElement("link");
+        el.setAttribute("rel", rel);
+        document.head.appendChild(el);
+      }
+      el.setAttribute("href", url);
+    };
+    setLink("icon");
+    setLink("apple-touch-icon");
+  }
+
   return {
     DEFAULT_CONTENT,
     load, save, reset, exportJSON, importJSON,
-    loadRemote, loadSite, hasDraft,
+    loadRemote, loadSite, hasDraft, applyFavicon,
     initAuth, login, logout, isLoggedIn, changePassword,
     clone,
   };

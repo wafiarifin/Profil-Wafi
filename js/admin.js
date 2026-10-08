@@ -179,7 +179,7 @@
   /* ---------- Photo upload ---------- */
   const DEFAULT_PHOTO = "assets/avatar.svg";
 
-  function fileToDataUrl(file, maxSize = 900, quality = 0.85) {
+  function fileToDataUrl(file, maxSize = 900, quality = 0.85, forcePng = false) {
     return new Promise((resolve, reject) => {
       if (!file || !file.type.startsWith("image/")) return reject(new Error("Bukan gambar"));
       const reader = new FileReader();
@@ -196,7 +196,7 @@
           canvas.height = h;
           const ctx = canvas.getContext("2d");
           ctx.drawImage(image, 0, 0, w, h);
-          const isPng = /png/i.test(file.type);
+          const isPng = forcePng || /png|svg/i.test(file.type);
           resolve(canvas.toDataURL(isPng ? "image/png" : "image/jpeg", quality));
         };
         image.src = reader.result;
@@ -259,6 +259,70 @@
       dirty = true;
       setStatus("Ada perubahan belum disimpan");
       paint(v || DEFAULT_PHOTO);
+      if (info) info.textContent = "";
+    });
+  }
+
+  /* ---------- Favicon (ikon tab browser) ---------- */
+  const DEFAULT_FAVICON = "assets/favicon.svg";
+
+  function initFaviconPanel() {
+    const preview = $("#faviconPreview");
+    const input = $("#faviconInput");
+    const clearBtn = $("#faviconClear");
+    const urlInput = $("#faviconUrl");
+    const info = $("#faviconInfo");
+    if (!preview || !input) return;
+
+    const current = getPath(state, "brand.faviconUrl");
+    const isData = typeof current === "string" && current.startsWith("data:");
+    const paint = (src) => { preview.src = src || DEFAULT_FAVICON; };
+
+    paint(current || DEFAULT_FAVICON);
+    if (urlInput) urlInput.value = isData ? "" : (current || "");
+    if (info) info.textContent = isData ? "Favicon diunggah dari perangkat." : "";
+
+    input.addEventListener("change", async () => {
+      const file = input.files && input.files[0];
+      if (!file) return;
+      try {
+        if (info) info.textContent = "Memproses gambar…";
+        const dataUrl = await fileToDataUrl(file, 256, 0.9, true);
+        if (dataUrl.length > 500000) {
+          if (info) info.textContent = "Gambar terlalu besar. Pilih gambar lain.";
+          input.value = "";
+          return;
+        }
+        setPath(state, "brand.faviconUrl", dataUrl);
+        dirty = true;
+        setStatus("Ada perubahan belum disimpan");
+        paint(dataUrl);
+        if (window.CMS.applyFavicon) CMS.applyFavicon(state);
+        if (urlInput) urlInput.value = "";
+        if (info) info.textContent = `Terunggah: ${file.name}`;
+      } catch {
+        if (info) info.textContent = "Gagal memuat gambar. Coba file lain.";
+      }
+      input.value = "";
+    });
+
+    clearBtn?.addEventListener("click", () => {
+      setPath(state, "brand.faviconUrl", DEFAULT_FAVICON);
+      dirty = true;
+      setStatus("Ada perubahan belum disimpan");
+      paint(DEFAULT_FAVICON);
+      if (urlInput) urlInput.value = "";
+      if (info) info.textContent = "Kembali ke favicon default.";
+      if (window.CMS.applyFavicon) CMS.applyFavicon(state);
+    });
+
+    urlInput?.addEventListener("input", () => {
+      const v = urlInput.value.trim();
+      setPath(state, "brand.faviconUrl", v || DEFAULT_FAVICON);
+      dirty = true;
+      setStatus("Ada perubahan belum disimpan");
+      paint(v || DEFAULT_FAVICON);
+      if (window.CMS.applyFavicon) CMS.applyFavicon(state);
       if (info) info.textContent = "";
     });
   }
@@ -369,6 +433,24 @@
             <label for="photoUrl">Atau tempel URL foto</label>
             <input id="photoUrl" type="text" placeholder="Contoh: assets/foto.jpg atau https://..." />
             <small>Biarkan kosong untuk memakai foto default.</small>
+          </div>
+        </div>
+        <div class="panel">
+          <h3 class="panel__title">Favicon (ikon tab browser)</h3>
+          <p class="panel__desc">Tampil di tab browser, bookmark, dan ikon pintasan di HP. Gunakan gambar persegi (PNG/SVG), disarankan 256×256 px atau lebih kecil.</p>
+          <div class="photo">
+            <div class="photo__preview"><img id="faviconPreview" src="assets/favicon.svg" alt="Pratinjau favicon" /></div>
+            <div class="photo__ctrl">
+              <input id="faviconInput" type="file" accept="image/*" hidden />
+              <label class="btn btn--outline btn--sm" for="faviconInput">Pilih &amp; unggah favicon</label>
+              <button type="button" class="btn btn--ghost btn--sm" id="faviconClear">Gunakan default</button>
+              <small id="faviconInfo"></small>
+            </div>
+          </div>
+          <div class="afield">
+            <label for="faviconUrl">Atau tempel URL favicon</label>
+            <input id="faviconUrl" type="text" placeholder="Contoh: assets/favicon.svg atau https://..." />
+            <small>Biarkan kosong untuk memakai favicon default.</small>
           </div>
         </div>
         <div class="panel">
@@ -672,7 +754,7 @@
     currentView = view;
     $("#viewTitle").textContent = titles[view] || "Panel";
     dashContent.innerHTML = viewRenderers[view] ? viewRenderers[view]() : "";
-    if (view === "profil") initPhotoPanel();
+    if (view === "profil") { initPhotoPanel(); initFaviconPanel(); }
     $$("#dashNav button").forEach((b) => b.classList.toggle("is-active", b.dataset.view === view));
     saveBtn.style.display = view === "overview" || view === "pengaturan" ? "none" : "";
     resetViewBtn.hidden = view === "overview" || view === "pengaturan";
@@ -849,6 +931,7 @@
   async function showApp() {
     await CMS.initAuth();
     const { name, initials } = CMS.load().brand || {};
+    if (window.CMS.applyFavicon) CMS.applyFavicon(CMS.load());
     const mark = $("#loginBrand");
     if (mark) mark.textContent = initials || "AD";
     const side = $("#sideMark");

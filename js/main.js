@@ -31,6 +31,7 @@
      1) RENDER — Meta & Brand
      ========================================================= */
   document.title = content.meta.title;
+  if (window.CMS && window.CMS.applyFavicon) window.CMS.applyFavicon(content);
   const metaDesc = $('meta[name="description"]');
   if (metaDesc) metaDesc.setAttribute("content", content.meta.description);
 
