@@ -16,7 +16,15 @@
     return /^(https?:|mailto:|tel:|#|\/|assets\/)/i.test(u) ? u : fallback;
   };
 
-  const content = window.CMS ? window.CMS.load() : null;
+  /* =========================================================
+     0) MUAT DATA KONTEN
+     Ambil versi terbaru dari server (content.json) agar perubahan
+     dari panel admin ikut tampil di semua perangkat, bukan hanya
+     di browser tempat admin menyunting. Bila offline, otomatis
+     memakai salinan terakhir / konten bawaan.
+     ========================================================= */
+  async function init() {
+  const content = window.CMS ? await window.CMS.loadSite() : null;
   if (!content) return;
 
   /* =========================================================
@@ -574,4 +582,10 @@
   const yearEl = $("#year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
   renderProjects();
+  }
+
+  init().catch((err) => {
+    // Jangan biarkan kegagalan pemuatan data membuat halaman kosong.
+    console.error("Gagal memuat konten:", err);
+  });
 })();

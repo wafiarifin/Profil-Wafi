@@ -86,16 +86,24 @@ Akses melalui tautan **Panel Admin** di footer, atau langsung ke `admin.html`.
 - **Menu:** Ringkasan · Profil & Hero · Tentang Saya · Keahlian · Proyek · Pengalaman · Pendidikan & Sertifikasi · Kontak · Pengaturan.
 - **CRUD** untuk proyek, pengalaman, pendidikan, sertifikasi, pelatihan, minat, filosofi, keahlian, kategori, dan tautan sosial.
 - **Ekspor/Impor JSON** untuk mencadangkan atau memindahkan konten; **Reset** ke default.
-- Perubahan disimpan di `localStorage` browser dan langsung dipakai situs (`js/main.js` merender dari `CMS.load()`).
+- **Publikasi ke semua perangkat:** simpan konten ke file `content.json` di repo GitHub (menu **Pengaturan → Publikasi ke semua perangkat**), sehingga perubahan tampil di HP, tablet, dan browser lain — tidak hanya di perangkat tempat menyunting.
+- Perubahan lokal disimpan di `localStorage` browser sebagai *draft/pratinjau*, sedangkan situs publik (`js/main.js`) mengambil versi terbit dari `content.json` setiap kali dibuka.
 - Sesi login menggunakan `sessionStorage`; password disimpan sebagai hash **SHA-256**.
 
 > ⚠ **Keamanan:** karena situs statis tanpa server, autentikasi ini berjalan di sisi klien dan **bukan perlindungan nyata** — siapa pun yang dapat membaca file situs bisa melewatinya. Gunakan hanya untuk demo/kelola pribadi. Untuk produksi, pasang backend/host dengan autentikasi server, atau gunakan layanan CMS.
 
 ### Alur kerja yang disarankan
 
-1. Kelola konten di `admin.html`, klik **Simpan**.
-2. **Ekspor JSON** dari menu Pengaturan.
-3. Untuk menyebarkan ke publik: jadikan JSON tersebut nilai default di `js/content.js` (`DEFAULT_CONTENT`), atau simpan ke API/backend.
+1. Kelola konten di `admin.html`, klik **Simpan** (tersimpan sebagai draft di perangkat ini).
+2. Buka **Pengaturan → Publikasi ke semua perangkat**, isi username/repo GitHub, branch (`main`), path (`content.json`), dan **Personal Access Token** dengan izin *Contents: Read and write*. Aktifkan **Publikasikan otomatis** bila ingin setiap klik Simpan langsung terbit.
+3. Klik **Publikasikan sekarang**. Konten ditulis ke `content.json` dan di-commit ke repo; GitHub Pages memuat ulang dalam 1–2 menit.
+4. Muat ulang situs di HP/tab lain — konten terbaru otomatis diambil dari server (`fetch` dengan `cache: no-store`).
+
+> Tanpa konfigurasi GitHub, perubahan hanya tersimpan lokal. Alternatif manual: **Ekspor JSON**, lalu timpa file `content.json` di repo dan commit.
+
+#### Kenapa dulu hanya terlihat di desktop?
+
+Sebelumnya semua konten disimpan di `localStorage`, yang bersifat **per-perangkat** — jadi HP/tab lain tidak pernah menerima perubahan. Sekarang konten terbit disimpan di `content.json` di server dan dibaca ulang setiap halaman dibuka, sehingga sinkron di semua perangkat.
 
 ## Kartu proyek (Featured Projects)
 
@@ -121,7 +129,7 @@ Kartu dapat difilter berdasarkan kategori: Web App, Mobile, Branding.
 
 Dua cara:
 
-1. **Lewat panel admin** (`admin.html`) — cara termudah, tersimpan di browser, bisa diekspor ke JSON.
+1. **Lewat panel admin** (`admin.html`) — cara termudah, tersimpan di browser sebagai draft, lalu **Publikasikan** ke `content.json` agar tampil bagi semua pengunjung.
 2. **Lewat kode** — untuk nilai default yang tampil bagi semua pengunjung:
    - Seluruh isi default ada di `js/content.js` pada objek `DEFAULT_CONTENT` (profil, tentang, keahlian, kategori, proyek, pengalaman, pendidikan, kontak, footer).
    - `js/main.js` merender isi tersebut ke halaman; `admin.html` + `js/admin.js` menyuntingnya.

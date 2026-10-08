@@ -9,6 +9,9 @@ window.CMS = (() => {
   const KEY = "portfolio-content";
   const AUTH_KEY = "portfolio-admin";
   const SESSION_KEY = "portfolio-session";
+  const DRAFT_KEY = "portfolio-draft";
+  const REMOTE_CACHE_KEY = "portfolio-content-remote";
+  const REMOTE_URL = "content.json";
 
   /* ---------- Nilai default (sesuai isi situs) ---------- */
   const DEFAULT_CONTENT = {
@@ -338,10 +341,49 @@ window.CMS = (() => {
   }
   function save(content) {
     localStorage.setItem(KEY, JSON.stringify(content));
+    // Tandai bahwa perangkat ini punya perubahan lokal (draft) yang
+    // belum diterbitkan, agar index.html menampilkan pratinjau lokal.
+    try { localStorage.setItem(DRAFT_KEY, "1"); } catch { /* abaikan */ }
     return content;
   }
   function reset() {
     localStorage.removeItem(KEY);
+    try { localStorage.removeItem(DRAFT_KEY); } catch { /* abaikan */ }
+  }
+  function hasDraft() {
+    try { return localStorage.getItem(DRAFT_KEY) === "1"; } catch { return false; }
+  }
+
+  /* ---------- Konten publik (tersinkron lintas perangkat) ----------
+     Situs statis tidak bisa berbagi localStorage antar perangkat. Karena
+     itu konten yang sudah dipublikasikan disimpan di file `content.json`
+     di server dan diambil lewat fetch setiap kali halaman dibuka. */
+  async function loadRemote() {
+    // `cache: no-store` + query unik => selalu ambil versi terbaru dari server,
+    // menembus cache browser maupun CDN (GitHub Pages / hosting statis).
+    const url = REMOTE_URL + "?v=" + Date.now();
+    try {
+      const res = await fetch(url, { cache: "no-store" });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const data = await res.json();
+      try { localStorage.setItem(REMOTE_CACHE_KEY, JSON.stringify(data)); } catch { /* penuh/privasi */ }
+      return deepMerge(clone(DEFAULT_CONTENT), data);
+    } catch {
+      // Offline / fetch gagal: pakai salinan terakhir dari server bila ada.
+      try {
+        const cached = localStorage.getItem(REMOTE_CACHE_KEY);
+        if (cached) return deepMerge(clone(DEFAULT_CONTENT), JSON.parse(cached));
+      } catch { /* abaikan */ }
+      return load();
+    }
+  }
+
+  // Dipakai situs publik (index.html): utamakan konten terbit dari server.
+  // Namun bila perangkat ini (mis. komputer admin) punya draft belum terbit,
+  // tampilkan draft lokal agar pratinjau tetap terlihat.
+  async function loadSite() {
+    if (hasDraft() && localStorage.getItem(KEY)) return load();
+    return loadRemote();
   }
   function exportJSON() {
     return JSON.stringify(load(), null, 2);
@@ -398,6 +440,7 @@ window.CMS = (() => {
   return {
     DEFAULT_CONTENT,
     load, save, reset, exportJSON, importJSON,
+    loadRemote, loadSite, hasDraft,
     initAuth, login, logout, isLoggedIn, changePassword,
     clone,
   };

@@ -52,9 +52,80 @@
   };
 
   /* ---------- State ---------- */
+  const PUB_KEY = "portfolio-publish";
   let state = CMS.load();
   let currentView = "overview";
   let dirty = false;
+
+  /* ---------- Konfigurasi publikasi (GitHub) ---------- */
+  function getPublishConfig() {
+    try {
+      const raw = localStorage.getItem(PUB_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch { return null; }
+  }
+  function setPublishConfig(cfg) {
+    localStorage.setItem(PUB_KEY, JSON.stringify(cfg));
+  }
+  function toBase64(str) {
+    const bytes = new TextEncoder().encode(str);
+    let bin = "";
+    bytes.forEach((b) => { bin += String.fromCharCode(b); });
+    return btoa(bin);
+  }
+  async function readError(res) {
+    try {
+      const j = await res.json();
+      return j && j.message ? res.status + ": " + j.message : "HTTP " + res.status;
+    } catch { return "HTTP " + res.status; }
+  }
+
+  /* Menerbitkan konten ke file `content.json` di repo GitHub, sehingga
+     GitHub Pages menyajikannya ke semua perangkat (HP, tablet, browser lain). */
+  async function publishToGitHub() {
+    const cfg = getPublishConfig();
+    if (!cfg || !cfg.owner || !cfg.repo || !cfg.token) {
+      throw new Error("Pengaturan publikasi belum lengkap.");
+    }
+    const branch = cfg.branch || "main";
+    const path = cfg.path || "content.json";
+    const api =
+      "https://api.github.com/repos/" + encodeURIComponent(cfg.owner) +
+      "/" + encodeURIComponent(cfg.repo) + "/contents/" + path;
+    const headers = {
+      Authorization: "Bearer " + cfg.token,
+      Accept: "application/vnd.github+json",
+      "X-GitHub-Api-Version": "2022-11-28",
+    };
+
+    // 1) Cari SHA file yang ada (wajib untuk memperbarui file yang sudah ada).
+    let sha;
+    const getRes = await fetch(api + "?ref=" + encodeURIComponent(branch) + "&t=" + Date.now(), {
+      headers,
+      cache: "no-store",
+    });
+    if (getRes.ok) {
+      const info = await getRes.json();
+      sha = info.sha;
+    } else if (getRes.status !== 404) {
+      throw new Error(await readError(getRes));
+    }
+
+    // 2) Kirim konten terbaru (commit -> GitHub Pages terbit ulang).
+    const body = {
+      message: "Perbarui konten situs — " + new Date().toISOString(),
+      content: toBase64(JSON.stringify(state, null, 2) + "\n"),
+      branch,
+    };
+    if (sha) body.sha = sha;
+    const putRes = await fetch(api, {
+      method: "PUT",
+      headers: { ...headers, "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    if (!putRes.ok) throw new Error(await readError(putRes));
+    return true;
+  }
 
   /* ---------- Field builder ---------- */
   function field(path, label, opts = {}) {
@@ -262,7 +333,7 @@
           <h3 class="panel__title">Selamat datang di panel konten</h3>
           <p class="panel__desc">Kelola seluruh isi website dari sini, lalu klik <b>Simpan</b>.</p>
           <ul class="tips">
-            <li>Perubahan tersimpan di browser ini (localStorage). Untuk membawa ke situs publik, gunakan <b>Ekspor JSON</b> di menu Pengaturan.</li>
+            <li>Perubahan tersimpan di browser ini (localStorage). Agar tampil di HP/tab/perangkat lain, buka <b>Pengaturan → Publikasi ke semua perangkat</b> lalu klik <b>Publikasikan</b>.</li>
             <li>Menu <b>Profil &amp; Hero</b> mengatur nama, peran, ringkasan, dan statistik.</li>
             <li>Menu <b>Proyek</b> mendukung tambah/ubah/hapus, tag teknologi, serta tautan demo &amp; repo.</li>
             <li>Jangan lupa ubah password default di menu <b>Pengaturan</b>.</li>
@@ -501,6 +572,8 @@
   }
 
   function pengaturanView() {
+    const cfg = getPublishConfig() || {};
+    const auto = cfg.auto !== false ? "true" : "false";
     return `
       <div class="panel">
         <h3 class="panel__title">Cadangkan konten</h3>
@@ -514,6 +587,43 @@
           <label for="importArea">Tempel JSON di sini</label>
           <textarea id="importArea" class="import-area" placeholder='{ "version": 1, ... }'></textarea>
         </div>
+      </div>
+      <div class="panel">
+        <h3 class="panel__title">Publikasi ke semua perangkat</h3>
+        <p class="panel__desc">
+          Simpan konten ke file <b>content.json</b> di server agar ikut tampil di HP,
+          tablet, dan browser lain — bukan hanya di perangkat ini. Isi data repositori
+          GitHub tempat situs ini di-hosting (GitHub Pages).
+        </p>
+        <div class="agrid">
+          <div class="afield"><label for="pub-owner">Pemilik repo (username)</label><input id="pub-owner" type="text" value="${esc(cfg.owner || "wafiarifin")}" placeholder="wafiarifin" /></div>
+          <div class="afield"><label for="pub-repo">Nama repo</label><input id="pub-repo" type="text" value="${esc(cfg.repo || "Profil-Wafi")}" placeholder="Profil-Wafi" /></div>
+        </div>
+        <div class="agrid">
+          <div class="afield"><label for="pub-branch">Branch</label><input id="pub-branch" type="text" value="${esc(cfg.branch || "main")}" placeholder="main" /></div>
+          <div class="afield"><label for="pub-path">Path file</label><input id="pub-path" type="text" value="${esc(cfg.path || "content.json")}" placeholder="content.json" /></div>
+        </div>
+        <div class="afield">
+          <label for="pub-token">Personal Access Token (Contents: Read and write)</label>
+          <input id="pub-token" type="password" value="${esc(cfg.token || "")}" placeholder="github_pat_..." autocomplete="off" />
+          <small>Hanya disimpan di browser ini. Jangan dibagikan ke siapa pun.</small>
+        </div>
+        <div class="afield">
+          <label for="pub-auto">Publikasikan otomatis setiap klik Simpan</label>
+          <select id="pub-auto"><option value="true"${auto === "true" ? " selected" : ""}>Ya</option><option value="false"${auto === "false" ? " selected" : ""}>Tidak</option></select>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn btn--primary btn--sm" id="pubSaveCfgBtn">Simpan pengaturan</button>
+          <button type="button" class="btn btn--outline btn--sm" id="pubNowBtn">Publikasikan sekarang</button>
+          <button type="button" class="btn btn--ghost btn--sm" id="pubClearBtn">Hapus token</button>
+        </div>
+        <p class="dash__status" id="pubStatus" role="status"></p>
+        <ol class="tips">
+          <li>GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens.</li>
+          <li>Beri akses ke repositori situs ini dengan izin <b>Contents: Read and write</b>.</li>
+          <li>Tempel token di atas, simpan, lalu klik <b>Publikasikan sekarang</b>.</li>
+          <li>Setelah terbit, tunggu 1–2 menit agar GitHub Pages memuat ulang, lalu cek di HP/tab lain.</li>
+        </ol>
       </div>
       <div class="panel">
         <h3 class="panel__title">Ubah password</h3>
@@ -624,14 +734,65 @@
     if (e.target.id === "importBtn") return importJSON();
     if (e.target.id === "resetAllBtn") return resetAll();
     if (e.target.id === "pwBtn") return savePassword();
+    if (e.target.id === "pubSaveCfgBtn") return savePublishConfig();
+    if (e.target.id === "pubNowBtn") return publishNow();
+    if (e.target.id === "pubClearBtn") return clearPublishConfig();
   });
 
   /* ---------- Actions ---------- */
-  function save() {
+  async function save() {
     CMS.save(state);
     dirty = false;
-    setStatus("Tersimpan ✓");
-    setTimeout(() => setStatus(""), 2200);
+    const cfg = getPublishConfig();
+    if (cfg && cfg.auto && cfg.token) {
+      setStatus("Menyimpan & menerbitkan…");
+      try {
+        await publishToGitHub();
+        setStatus("Tersimpan & terbit ke semua perangkat ✓");
+      } catch (err) {
+        setStatus("Tersimpan lokal, gagal terbit: " + err.message, true);
+        return;
+      }
+    } else {
+      setStatus("Tersimpan di perangkat ini ✓ — klik Publikasikan agar tampil di semua perangkat");
+    }
+    setTimeout(() => setStatus(""), 4000);
+  }
+
+  function savePublishConfig() {
+    const st = $("#pubStatus");
+    const cfg = {
+      owner: $("#pub-owner").value.trim(),
+      repo: $("#pub-repo").value.trim(),
+      branch: $("#pub-branch").value.trim() || "main",
+      path: $("#pub-path").value.trim() || "content.json",
+      token: $("#pub-token").value.trim(),
+      auto: $("#pub-auto").value === "true",
+    };
+    setPublishConfig(cfg);
+    st.classList.remove("is-error");
+    st.textContent = "Pengaturan publikasi tersimpan ✓";
+  }
+
+  async function publishNow() {
+    savePublishConfig(); // pastikan isian terbaru terpakai
+    const st = $("#pubStatus");
+    st.classList.remove("is-error");
+    st.textContent = "Menerbitkan…";
+    try {
+      await publishToGitHub();
+      st.textContent = "Berhasil diterbitkan ✓ Tunggu 1–2 menit lalu muat ulang di HP/tab lain.";
+    } catch (err) {
+      st.classList.add("is-error");
+      st.textContent = "Gagal menerbitkan: " + err.message;
+    }
+  }
+
+  function clearPublishConfig() {
+    localStorage.removeItem(PUB_KEY);
+    render("pengaturan");
+    const st = $("#pubStatus");
+    if (st) st.textContent = "Konfigurasi publikasi dihapus.";
   }
 
   function exportJSON() {
