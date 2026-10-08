@@ -465,7 +465,13 @@
 
   const VIEWS = {
     overview() {
+      const cfg = getPublishConfig();
+      const ready = cfg && cfg.owner && cfg.repo && cfg.token;
+      const banner = ready
+        ? `<div class="panel panel--ok"><h3 class="panel__title">Publikasi ke semua perangkat aktif \u2713</h3><p class="panel__desc">Setiap kali Anda klik <b>Simpan</b>, konten langsung diterbitkan ke <b>${esc(cfg.owner)}/${esc(cfg.repo)}</b> dan tampil di HP/tab lain dalam 1–2 menit.</p></div>`
+        : `<div class="panel panel--warn"><h3 class="panel__title">Publikasi ke semua perangkat belum aktif</h3><p class="panel__desc">Perubahan saat ini <b>hanya tersimpan di browser ini</b> — HP/tab lain tidak akan ikut berubah. Atur sekali di menu <b>Pengaturan → Publikasi ke semua perangkat</b>, atau klik tombol <b>Terbitkan</b> di kanan atas.</p></div>`;
       return `
+        ${banner}
         <div class="ov-grid">
           <div class="ov-card"><b>${state.projects.length}</b><span>Proyek</span></div>
           <div class="ov-card"><b>${state.experience.length}</b><span>Pengalaman</span></div>
@@ -933,6 +939,7 @@
 
   const dashContent = $("#dashContent");
   const saveBtn = $("#saveBtn");
+  const publishBtn = $("#publishBtn");
   const saveStatus = $("#saveStatus");
   const resetViewBtn = $("#resetViewBtn");
 
@@ -1161,6 +1168,31 @@
   });
 
   saveBtn.addEventListener("click", save);
+
+  // Simpan + terbitkan ke semua perangkat dalam satu klik.
+  publishBtn?.addEventListener("click", async () => {
+    const cfg = getPublishConfig();
+    if (!cfg || !cfg.owner || !cfg.repo || !cfg.token) {
+      setStatus("Atur publikasi dulu di menu Pengaturan.", true);
+      render("pengaturan");
+      const st = $("#pubStatus");
+      if (st) {
+        st.classList.add("is-error");
+        st.textContent = "Isi data repo & token GitHub, lalu klik Simpan pengaturan. Setelah itu tombol Terbitkan bekerja otomatis.";
+      }
+      return;
+    }
+    CMS.save(state);
+    dirty = false;
+    setStatus("Menerbitkan ke semua perangkat…");
+    try {
+      await publishToGitHub();
+      setStatus("Terbit ke semua perangkat \u2713 (tunggu 1–2 menit lalu muat ulang di HP)");
+    } catch (err) {
+      setStatus("Gagal menerbitkan: " + err.message, true);
+    }
+    setTimeout(() => setStatus(""), 5000);
+  });
 
   // Batalkan perubahan yang belum disimpan pada view aktif
   resetViewBtn.addEventListener("click", () => {

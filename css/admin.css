@@ -87,6 +87,9 @@
 }
 .panel__title { font-size: 1rem; font-weight: 700; margin-bottom: .25rem; }
 .panel__desc { font-size: .85rem; color: var(--text-soft); margin-bottom: 1.25rem; }
+.panel--ok { border-left: 4px solid #12a150; }
+.panel--warn { border-left: 4px solid #e5a50a; }
+.panel--ok .panel__desc, .panel--warn .panel__desc { margin-bottom: 0; }
 
 .afield { display: grid; gap: .3rem; margin-bottom: 1rem; }
 .afield > label { font-size: .8rem; font-weight: 600; }
