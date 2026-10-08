@@ -7,7 +7,7 @@
   "brand": {
     "initials": "WA",
     "name": "Wafi Arifin",
-    "faviconUrl": "assets/favicon.svg"
+    "faviconUrl": "data:image/png;base64,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"
   },
   "hero": {
     "availability": "Terbuka untuk peluang kerja sama",
@@ -47,23 +47,23 @@
     "facts": [
       {
         "label": "Berbasis di",
-        "value": "Jakarta, Indonesia (terbuka remote)"
+        "value": "Semarang, Indonesia"
       },
       {
         "label": "Fokus keahlian",
-        "value": "Performa web, aksesibilitas, design system"
+        "value": "Artificial Intelligence, MS Office, Design system"
       },
       {
         "label": "Pengalaman",
-        "value": "5+ tahun, 40+ proyek terkirim"
+        "value": "3 Tahun, 3 Project"
       },
       {
         "label": "Pendidikan",
-        "value": "S1 Teknik Informatika, cum laude"
+        "value": "S2 Teknologi Informasi"
       },
       {
         "label": "Bahasa",
-        "value": "Indonesia (native) · Inggris (profesional)"
+        "value": "Indonesia (native)."
       }
     ],
     "interestsHeading": "Bidang Minat Utama",
@@ -75,7 +75,7 @@
       },
       {
         "title": "Sistem Informasi",
-        "desc": "Merancang alur data dan sistem yang membuat operasional tim lebih efisien, terukur, dan mudah dipelihara."
+        "desc": "Merancang alur data dan sistem yang membuat operasional tim lebih efisien, terukur, dan mudah di maintenance"
       },
       {
         "title": "Edukasi Teknologi",
@@ -86,20 +86,20 @@
     "philosophyLead": "Empat prinsip yang saya pegang di setiap proyek.",
     "philosophy": [
       {
-        "title": "Sederhana dulu, baru cerdas",
-        "desc": "Bangun solusi paling sederhana yang menyelesaikan masalah, lalu optimalkan berdasarkan kebutuhan nyata — bukan tebakan."
+        "title": "BERDAMPAK",
+        "desc": "Setiap pekerjaan harus memberikan manfaat dan hasil yang nyata."
       },
       {
-        "title": "Ukur, jangan menebak",
-        "desc": "Setiap keputusan desain dan teknis diuji dengan data pengguna serta metrik performa, agar dampaknya bisa dibuktikan."
+        "title": "BERKUALITAS",
+        "desc": "Mengutamakan ketelitian, kreativitas, dan standar terbaik dalam setiap proses."
       },
       {
-        "title": "Aksesibel sejak awal",
-        "desc": "Aksesibilitas bukan tambahan di akhir, melainkan dasar yang membuat produk dapat digunakan semua orang."
+        "title": "KOLABORATIF",
+        "desc": "Terbuka terhadap ide, komunikasi, dan kerja sama untuk menghasilkan solusi yang lebih baik."
       },
       {
-        "title": "Berbagi agar tim tumbuh",
-        "desc": "Dokumentasi, code review, dan mentoring membuat pengetahuan tersebar sehingga seluruh tim bergerak lebih cepat."
+        "title": "BERTANGUNG JAWAB",
+        "desc": "Menjaga komitmen, integritas, dan menyelesaikan setiap pekerjaan dengan penuh tanggung jawab."
       }
     ]
   },
@@ -111,7 +111,6 @@
         "group": "Bahasa Pemrograman",
         "items": [
           "JavaScript",
-          "TypeScript",
           "Python",
           "PHP",
           "SQL",
@@ -120,68 +119,35 @@
         ]
       },
       {
-        "group": "Framework & Library",
-        "items": [
-          "React",
-          "Vue",
-          "Next.js",
-          "Node.js",
-          "Express",
-          "Laravel",
-          "Tailwind",
-          "Bootstrap"
-        ]
-      },
-      {
         "group": "Database",
         "items": [
-          "PostgreSQL",
-          "MySQL",
-          "MongoDB",
-          "Redis",
-          "Firebase Firestore"
-        ]
-      },
-      {
-        "group": "Cloud & Serverless",
-        "items": [
-          "AWS Lambda",
-          "Amazon S3",
-          "Google Cloud",
-          "Google Apps Script",
-          "Firebase",
-          "Vercel",
-          "Netlify"
+          "MySQL"
         ]
       },
       {
         "group": "DevOps & Tools",
         "items": [
-          "Git",
-          "GitHub Actions",
-          "Docker",
-          "CI/CD",
-          "Jest",
+          "GitHub",
           "Figma"
         ]
       }
     ],
     "proficiency": [
       {
-        "label": "UI / Frontend",
+        "label": "MS OFFICE",
+        "percent": 100
+      },
+      {
+        "label": "EDITING VIDEO",
+        "percent": 88
+      },
+      {
+        "label": "DIGITAL MARKETING",
         "percent": 95
       },
       {
-        "label": "Backend API",
-        "percent": 82
-      },
-      {
-        "label": "Database",
-        "percent": 75
-      },
-      {
-        "label": "Cloud & Serverless",
-        "percent": 70
+        "label": "AI OPTIMASI",
+        "percent": 91
       }
     ],
     "toolsHeading": "Alat & Software Tambahan",
@@ -191,28 +157,20 @@
         "group": "Desain",
         "items": [
           "Figma",
-          "Adobe Photoshop",
-          "Adobe Illustrator",
-          "Canva",
-          "Affinity Designer"
+          "Canva"
         ]
       },
       {
         "group": "Editing Video",
         "items": [
-          "Adobe Premiere Pro",
-          "Adobe After Effects",
-          "DaVinci Resolve",
-          "CapCut"
+          "CapCut",
+          "FILMORA"
         ]
       },
       {
         "group": "Produktivitas",
         "items": [
-          "Notion",
           "Trello",
-          "Miro",
-          "Slack",
           "Google Workspace",
           "Microsoft 365"
         ]
@@ -240,10 +198,6 @@
       {
         "title": "Kolaborasi Lintas Tim",
         "desc": "Bekerja selaras dengan desain, produk, dan backend menuju tujuan yang sama tanpa silo."
-      },
-      {
-        "title": "Kepemimpinan & Mentoring",
-        "desc": "Memimpin inisiatif, melakukan code review, dan membina anggota agar standar kualitas tim terjaga."
       }
     ]
   },
@@ -263,335 +217,380 @@
   ],
   "projects": [
     {
-      "id": "kasira",
-      "title": "Kasira — POS untuk UMKM",
+      "id": "SIMPONI",
+      "title": "SIMPONI — Sistem Monitoring & Pelaporan Posyandu Pusporini",
       "category": "web",
-      "year": "2024",
-      "accent": "#4f46e5",
-      "glyph": "KSR",
-      "problem": "Pemilik warung dan kafe kecil masih mencatat transaksi di buku, sehingga stok sering selisih dan laporan harian memakan waktu lebih dari satu jam.",
-      "solution": "Saya membangun aplikasi kasir berbasis web yang bisa dipakai offline, dengan sinkronisasi otomatis saat kembali online. Bertindak sebagai frontend lead dan merancang alur checkout.",
+      "year": "2026",
+      "accent": "#9648e5",
+      "glyph": "SIMPONI",
+      "problem": "Pelaporan kegiatan Posyandu masih berpotensi dilakukan secara manual dan tidak terintegrasi.\nData pelayanan membutuhkan proses pencatatan dan rekapitulasi yang lebih cepat, rapi, dan mudah dipantau.\nPetugas membutuhkan media yang sederhana untuk melakukan input dan pelaporan data 6 SPM.\nProses monitoring dan dokumentasi data menjadi kurang efisien apabila masih bergantung pada pencatatan konvensional.",
+      "solution": "Membangun sistem pelaporan Posyandu berbasis digital melalui formulir online yang dapat digunakan oleh petugas untuk memasukkan data pelaporan secara lebih terstruktur.",
       "results": [
-        "Waktu tutup buku turun dari ~60 menit menjadi 5 menit.",
-        "Selisih stok berkurang 78% pada 3 bulan pertama.",
-        "Dipakai oleh 120+ UMKM di 4 kota."
+        "Proses pelaporan menjadi lebih cepat",
+        "terstruktur",
+        "terdokumentasi",
+        "dan mendukung digitalisasi pelayanan Posyandu."
       ],
       "tech": [
         "Google Apps Script",
-        "Bootstrap",
-        "Firebase",
-        "JavaScript"
+        "Google Spreadsheat"
       ],
       "links": [
         {
-          "label": "Lihat Demo",
-          "href": "https://example.com",
+          "label": "Form Simponi",
+          "href": "https://sites.google.com/view/posyandupusporinirw05/formposyandu",
           "primary": true
         },
         {
-          "label": "Studi Kasus",
-          "href": "https://example.com"
+          "label": "Admin Dashboard",
+          "href": "https://sites.google.com/view/dashboardpusporini/adminposyandu",
+          "primary": true
         }
       ]
     },
     {
-      "id": "medibook",
-      "title": "MediBook — Booking Klinik",
+      "id": "Desa Bermi",
+      "title": "Website Desa Bermi",
       "category": "web",
-      "year": "2023",
-      "accent": "#0891b2",
-      "glyph": "MDB",
-      "problem": "Pasien harus menelepon untuk membuat janji, sehingga resepsionis kewalahan dan sering terjadi jadwal ganda.",
-      "solution": "Merancang dan mengembangkan sistem reservasi dengan kalender ketersediaan dokter secara real-time serta pengingat otomatis via pesan.",
+      "year": "2026",
+      "accent": "#2eff1f",
+      "glyph": "Ds.Bermi",
+      "problem": "Desa membutuhkan media digital yang mampu menyajikan informasi dan mendukung pelayanan masyarakat secara lebih mudah dan terstruktur.",
+      "solution": "Mengembangkan portal digital Desa Bermi sebagai pusat informasi dan layanan online, termasuk integrasi form/aplikasi digital serta penyusunan struktur informasi yang mudah diakses masyarakat.",
       "results": [
-        "Jadwal ganda turun hingga nol dalam 6 bulan.",
-        "Beban panggilan resepsionis berkurang 65%.",
-        "Tingkat kehadiran pasien naik 24%."
+        "Mempermudah akses informasi",
+        "mempercepat penyampaian layanan",
+        "meningkatkan keterbukaan informasi",
+        "dan mendukung transformasi digital pelayanan Desa Bermi."
       ],
       "tech": [
-        "Vue",
-        "Bootstrap",
-        "Firebase",
-        "REST API"
+        "Google Apps Script",
+        "Google Spreadsheat"
       ],
       "links": [
         {
-          "label": "Studi Kasus",
-          "href": "https://example.com",
+          "label": "Website Desa",
+          "href": "https://sites.google.com/view/desabermidemak/desabermi",
           "primary": true
         }
       ]
     },
     {
-      "id": "belajar",
-      "title": "Belajar.id — Platform Kursus",
+      "id": "Mubarak Kost",
+      "title": "Mubarak Kost - Manajeman dan Form Digital",
       "category": "web",
-      "year": "2023",
-      "accent": "#7c3aed",
-      "glyph": "BLJ",
-      "problem": "Siswa di daerah dengan internet lambat kesulitan mengakses video pembelajaran yang berat dan sering buffering.",
-      "solution": "Membangun pemutar video adaptif dan strategi cache progresif, plus mode hemat data. Fokus pada performa dan aksesibilitas.",
+      "year": "2026",
+      "accent": "#dae548",
+      "glyph": "Mubarak Kost",
+      "problem": "Informasi mengenai kamar kost, fasilitas, dan ketersediaan kamar membutuhkan media yang mudah diakses secara online.\nCalon penghuni kost membutuhkan cara yang lebih praktis untuk mencari informasi sebelum datang langsung.\nPengelolaan informasi kost secara manual kurang efektif ketika harus memberikan informasi yang sama kepada banyak calon penghuni.\nDibutuhkan media digital yang dapat membantu promosi dan pengelolaan informasi Mubarak Kost.",
+      "solution": "Mengembangkan website Mubarak Kost sebagai media informasi dan promosi digital, sekaligus mengintegrasikan form/aplikasi untuk mendukung kebutuhan pengelolaan informasi.",
       "results": [
-        "Ukuran muat awal turun 61%.",
-        "Retensi penyelesaian kursus naik 33%.",
-        "Skor aksesibilitas Lighthouse 98/100."
+        "Mempermudah calon penghuni memperoleh informasi",
+        "memperluas jangkauan promosi",
+        "dan membantu Mubarak Kost memiliki media digital yang lebih profesional."
       ],
       "tech": [
-        "React",
-        "Tailwind",
-        "Service Worker",
-        "HLS"
+        "Google Apps Script",
+        "Google Spreadsheat"
       ],
       "links": [
         {
-          "label": "Lihat Demo",
-          "href": "https://example.com",
-          "primary": true
-        },
-        {
-          "label": "GitHub",
-          "href": "https://github.com"
-        }
-      ]
-    },
-    {
-      "id": "jejak",
-      "title": "Jejak — Aplikasi Pendaki",
-      "category": "mobile",
-      "year": "2022",
-      "accent": "#059669",
-      "glyph": "JJK",
-      "problem": "Pendaki sering tersesat karena sinyal hilang di jalur gunung dan tidak punya peta offline yang andal.",
-      "solution": "Mengembangkan aplikasi mobile dengan peta offline, perekaman jejak GPS, dan tombol darurat yang mengirim koordinat terakhir.",
-      "results": [
-        "Peta offline berfungsi penuh tanpa sinyal.",
-        "Digunakan 8.400+ kali pendakian tercatat.",
-        "Rating 4.8/5 di toko aplikasi."
-      ],
-      "tech": [
-        "React Native",
-        "Firebase",
-        "MapLibre",
-        "SQLite"
-      ],
-      "links": [
-        {
-          "label": "Unduh",
-          "href": "https://example.com",
-          "primary": true
-        }
-      ]
-    },
-    {
-      "id": "fitflow",
-      "title": "FitFlow — Latihan Harian",
-      "category": "mobile",
-      "year": "2022",
-      "accent": "#db2777",
-      "glyph": "FTF",
-      "problem": "Pengguna pemula bingung harus mulai olahraga dari mana dan cepat berhenti karena tidak melihat kemajuan.",
-      "solution": "Merancang pengalaman onboarding personal dan sistem progres visual yang membuat kemajuan terasa nyata setiap hari.",
-      "results": [
-        "Retensi 30 hari naik dari 18% ke 41%.",
-        "Rata-rata sesi latihan mingguan naik 2,3x.",
-        "Churn bulan pertama turun 37%."
-      ],
-      "tech": [
-        "Flutter",
-        "Firebase",
-        "Figma",
-        "Google Apps Script"
-      ],
-      "links": [
-        {
-          "label": "Studi Kasus",
-          "href": "https://example.com",
-          "primary": true
-        }
-      ]
-    },
-    {
-      "id": "kopi",
-      "title": "Rebranding Kopi Lereng",
-      "category": "branding",
-      "year": "2021",
-      "accent": "#b45309",
-      "glyph": "KLR",
-      "problem": "Kedai kopi lokal sulit dibedakan dari kompetitor dan kemasan produknya tidak menarik di rak toko.",
-      "solution": "Menyusun identitas visual menyeluruh: logo, palet warna, tipografi, dan sistem kemasan yang konsisten lintas produk.",
-      "results": [
-        "Penjualan ritel naik 52% dalam 4 bulan.",
-        "Dikenali kembali oleh 7 dari 10 pelanggan lokal.",
-        "Diterapkan pada 12 varian kemasan."
-      ],
-      "tech": [
-        "Figma",
-        "Illustrator",
-        "Bootstrap",
-        "Design System"
-      ],
-      "links": [
-        {
-          "label": "Lihat Brand",
-          "href": "https://example.com",
+          "label": "Mubarak Kost",
+          "href": "https://sites.google.com/view/mubarak-kos/mubarakkost?authuser=3",
           "primary": true
         }
       ]
     }
   ],
+  "publications": {
+    "kicker": "Publikasi Karya",
+    "title": "Penelitian, Pengabdian Masyarakat & Buku",
+    "lead": "Rekam jejak karya ilmiah, kegiatan pengabdian kepada masyarakat, serta buku yang telah ditulis dan diterbitkan.",
+    "categories": [
+      {
+        "id": "penelitian",
+        "label": "Penelitian"
+      },
+      {
+        "id": "pengabdian",
+        "label": "Pengabdian Masyarakat"
+      },
+      {
+        "id": "buku",
+        "label": "Buku"
+      }
+    ],
+    "items": [
+      {
+        "id": "pub-1",
+        "type": "penelitian",
+        "year": "2024",
+        "title": "Contoh Judul Penelitian Anda",
+        "venue": "Jurnal Ilmiah Contoh · Vol. 12 No. 1",
+        "desc": "Ganti contoh ini dengan penelitian Anda: tujuan, metode, dan temuan utama secara singkat.",
+        "url": "https://example.com",
+        "image": ""
+      },
+      {
+        "id": "pub-2",
+        "type": "pengabdian",
+        "year": "2023",
+        "title": "Contoh Kegiatan Pengabdian Masyarakat",
+        "venue": "Desa / Kelompok Binaan · Lokasi",
+        "desc": "Jelaskan kegiatan pengabdian: sasaran, bentuk kegiatan, dan dampaknya bagi masyarakat.",
+        "url": "https://example.com",
+        "image": ""
+      },
+      {
+        "id": "pub-3",
+        "type": "buku",
+        "year": "2022",
+        "title": "Contoh Judul Buku",
+        "venue": "Penerbit Contoh · ISBN 978-000-000-000-0",
+        "desc": "Uraikan isi buku dan kontribusinya secara singkat.",
+        "url": "https://example.com",
+        "image": ""
+      }
+    ]
+  },
+  "techmate": {
+    "kicker": "Techmate",
+    "title": "Portofolio Kursus Privat",
+    "lead": "Kelas privat tatap muka maupun daring untuk meningkatkan keterampilan digital. Pilih topik yang Anda butuhkan.",
+    "whatsapp": "",
+    "whatsappMessage": "Halo Techmate, saya ingin bertanya tentang kursus privat.",
+    "courses": [
+      {
+        "id": "ms-office",
+        "title": "Ms Office",
+        "desc": "Word, PowerPoint, dan dasar komputer untuk pekerjaan sehari-hari.",
+        "image": "",
+        "tags": [
+          "Word",
+          "PowerPoint",
+          "Dasar Komputer"
+        ]
+      },
+      {
+        "id": "ms-excel",
+        "title": "Ms Excel",
+        "desc": "Rumus, tabel, grafik, pivot table, hingga otomatisasi laporan.",
+        "image": "",
+        "tags": [
+          "Rumus",
+          "Pivot Table",
+          "Grafik"
+        ]
+      },
+      {
+        "id": "video-editing",
+        "title": "Video Editing",
+        "desc": "Editing video untuk konten media sosial maupun kebutuhan profesional.",
+        "image": "",
+        "tags": [
+          "Premiere",
+          "CapCut",
+          "After Effects"
+        ]
+      },
+      {
+        "id": "digital-marketing",
+        "title": "Digital Marketing",
+        "desc": "Strategi media sosial, iklan digital, dan pemasaran konten.",
+        "image": "",
+        "tags": [
+          "Media Sosial",
+          "Iklan Digital",
+          "Konten"
+        ]
+      },
+      {
+        "id": "ai-optimization",
+        "title": "AI Optimization",
+        "desc": "Memanfaatkan AI untuk produktivitas kerja dan optimasi konten.",
+        "image": "",
+        "tags": [
+          "Prompt",
+          "Produktivitas",
+          "AI Tools"
+        ]
+      }
+    ]
+  },
   "experience": [
     {
       "type": "kerja",
       "typeLabel": "Penuh Waktu",
-      "date": "Feb 2023 — Sekarang",
-      "title": "Frontend Engineer",
-      "org": "PT Nusantara Digital · Jakarta",
+      "date": "Januari 2021 — April 2021",
+      "title": "Sales Marketing ",
+      "org": "Horison Copier",
       "points": [
-        "Memimpin migrasi antarmuka warisan ke React + TypeScript, menurunkan waktu muat halaman 42%.",
-        "Membangun design system internal yang dipakai 6 tim produk, memangkas duplikasi komponen 60%.",
-        "Menginisiasi pipeline CI/CD frontend, mempercepat siklus rilis dari 2 mingguan menjadi mingguan."
+        "Closing tiap bulan 1 Mesin"
       ]
     },
     {
       "type": "kerja",
       "typeLabel": "Penuh Waktu",
-      "date": "Jul 2021 — Jan 2023",
-      "title": "UI Developer",
-      "org": "Studio Kreatif Arta · Bandung",
+      "date": "Agustus 2021 — Februari 2024",
+      "title": "Humas Dan Media",
+      "org": "Universitas Stikubank Semarang",
       "points": [
-        "Mengembangkan 25+ antarmuka klien dengan skor aksesibilitas Lighthouse rata-rata 96/100.",
-        "Mengotomatisasi komponen formulir, menghemat estimasi 15 jam kerja per proyek."
+        "Kelola Sosial Media dan Konten Tiktok"
       ]
     },
     {
       "type": "kerja",
-      "typeLabel": "Magang",
-      "date": "Jun 2020 — Jun 2021",
-      "title": "Frontend Intern",
-      "org": "Startup RuangData · Remote",
+      "typeLabel": "Penuh Waktu",
+      "date": "Oktober 2024 - Agustus 2025",
+      "title": "Dosen ",
+      "org": "Amik Jakarta Teknologi Cipta Semarang dan LPK Alfabank",
       "points": [
-        "Membangun dashboard analitik internal yang memangkas waktu pelaporan manual tim ops 50%.",
-        "Diangkat menjadi kontributor tetap setelah masa magang berakhir."
+        "Mengajar 3 Mata Kuliah"
+      ]
+    },
+    {
+      "type": "kerja",
+      "typeLabel": "Penuh Waktu",
+      "date": "September 2025 - Januari 2026",
+      "title": "Dosen & Staff LPPM",
+      "org": "STMIK BINA PATRIA",
+      "points": [
+        "Menjadi Staff LPPM 1 Semester"
+      ]
+    },
+    {
+      "type": "kerja",
+      "typeLabel": "Penuh Waktu",
+      "date": "Februari 2026 - Sekarang",
+      "title": "Ketua Program Studi Informatika",
+      "org": "Universitas Sains Teknologi Ekonomi Digital Indonesia",
+      "points": [
+        "Ketua Program Studi Informatika"
       ]
     },
     {
       "type": "organisasi",
       "typeLabel": "Organisasi",
-      "date": "2022 — Sekarang",
-      "title": "Ketua Divisi Teknologi",
-      "org": "Komunitas Developer Muda Indonesia",
+      "date": "2018-2019",
+      "title": "Staff Eksternal",
+      "org": "UKM Internet Club",
       "points": [
-        "Memimpin 12 anggota divisi dan menyelenggarakan 8 workshop teknis dengan 600+ peserta.",
-        "Membangun situs komunitas yang meningkatkan pendaftaran anggota baru 3x."
+        "Menjadi MC dibeberapa acara seminar"
       ]
     },
     {
       "type": "organisasi",
       "typeLabel": "Organisasi",
-      "date": "2018 — 2021",
-      "title": "Koordinator Media & Publikasi",
-      "org": "Himpunan Mahasiswa Teknik Informatika",
+      "date": "2019-2020",
+      "title": "Vice Managerial Eksternal",
+      "org": "UKM Internet Club",
       "points": [
-        "Mengelola kanal media kampus, menaikkan jangkauan konten 120% dalam satu tahun.",
-        "Mengoordinasikan 5 event dengan total 1.200+ peserta."
+        "Memimpin dan Menjembatani Staff mendapat pelatihan dan soft skill"
+      ]
+    },
+    {
+      "type": "organisasi",
+      "typeLabel": "Organisasi",
+      "date": "2020-2021",
+      "title": "HR Eksternal",
+      "org": "UKM Internet Club",
+      "points": [
+        "Mengkoordinir Manajerial dan Staff di Departemen Eksternal"
+      ]
+    },
+    {
+      "type": "organisasi",
+      "typeLabel": "Organisasi",
+      "date": "2022 - Sekarang",
+      "title": "Sekertaris RT",
+      "org": "RT 06 RW 05 Gisikdrono",
+      "points": [
+        "Membantu dalam kinerja Ketua RT di Lingkungan Kampung"
+      ]
+    },
+    {
+      "type": "organisasi",
+      "typeLabel": "Organisasi",
+      "date": "2025-2029",
+      "title": "Ketua Karangtaruna",
+      "org": "Karangtaruna Limaction RW 05",
+      "points": [
+        "Membuat inovasi sistem pelaporan SIMPONI posyandu"
+      ]
+    },
+    {
+      "type": "organisasi",
+      "typeLabel": "Organisasi",
+      "date": "2025-2029",
+      "title": "Divisi Media",
+      "org": "Karangtaruna Puspa Muda Kelurahan Gisikdrono",
+      "points": [
+        "Admin Sosial Media"
+      ]
+    },
+    {
+      "type": "organisasi",
+      "typeLabel": "Organisasi",
+      "date": "2025-2029",
+      "title": "Anggota",
+      "org": "Karangtaruna Kec Semarang Barat",
+      "points": [
+        "Menjadi Bagian Konseptor & Administrasi"
       ]
     }
   ],
   "education": {
     "formal": [
       {
-        "date": "2017 — 2021",
+        "date": "2022-2024",
+        "title": "S2 Teknologi Informasi",
+        "org": "Universitas Stikubank Semarang",
+        "note": "Analisa Faktor Yang Mempengaruhi Niat Berkelanjutan Calon Mahasiswa Setelah Membaca Berita Sosial Media Instagram"
+      },
+      {
+        "date": "2017-2021",
         "title": "S1 Teknik Informatika",
-        "org": "Universitas Contoh · IPK 3.82 / 4.00",
-        "note": "Cum laude. Skripsi: optimasi performa antarmuka web pada jaringan berlatensi tinggi."
+        "org": "Universitas Stikubank Semarang",
+        "note": "Rancang Bangun Sistem Peringatan Dini Untuk Pencegahan Virus Covid 19 Melalui Deteksi Suhu Tubuh Secara Real Time Berbasis Informasi Suara"
       },
       {
-        "date": "2014 — 2017",
-        "title": "SMA Jurusan MIPA",
-        "org": "SMA Negeri 1 Contoh",
-        "note": "Juara 2 Olimpiade Komputer tingkat provinsi."
+        "date": "2014-2017",
+        "title": "SMA IPA",
+        "org": "SMA Negeri 14 Semarang",
+        "note": ""
+      },
+      {
+        "date": "2011-2014",
+        "title": "SMP",
+        "org": "SMP Negeri 1 Semarang",
+        "note": ""
+      },
+      {
+        "date": "2025-2011",
+        "title": "SD",
+        "org": "SD Hj Baiturahman 2 Semarang",
+        "note": ""
       }
     ],
-    "certs": [
-      {
-        "abbr": "GCP",
-        "title": "Associate Cloud Engineer",
-        "org": "Google Cloud",
-        "year": "2024",
-        "id": "GC-8842",
-        "url": "https://example.com"
-      },
-      {
-        "abbr": "META",
-        "title": "Front-End Developer Professional",
-        "org": "Meta",
-        "year": "2023",
-        "id": "META-FE-5521",
-        "url": "https://example.com"
-      },
-      {
-        "abbr": "GAS",
-        "title": "Google Apps Script & Automation",
-        "org": "Coursera",
-        "year": "2022",
-        "id": "CR-GAS-1093",
-        "url": "https://example.com"
-      },
-      {
-        "abbr": "A11Y",
-        "title": "Web Accessibility Specialist",
-        "org": "IAAP",
-        "year": "2023",
-        "id": "IAAP-WAS-3310",
-        "url": "https://example.com"
-      }
-    ],
-    "training": [
-      {
-        "year": "2024",
-        "title": "Advanced React Patterns & Performance",
-        "org": "Epic React · 40 jam",
-        "note": "Pola komposisi lanjutan, server components, dan profiling render."
-      },
-      {
-        "year": "2023",
-        "title": "Google Apps Script Automation Bootcamp",
-        "org": "Dicoding · 30 jam",
-        "note": "Otomasi Google Workspace & integrasi API untuk alur kerja tim."
-      },
-      {
-        "year": "2023",
-        "title": "UX Research Fundamentals",
-        "org": "Nielsen Norman Group · 25 jam",
-        "note": "Wawancara pengguna, usability testing, dan sintesis temuan."
-      },
-      {
-        "year": "2022",
-        "title": "Cloud & DevOps untuk Developer",
-        "org": "Bangkit Academy · 60 jam",
-        "note": "CI/CD, kontainerisasi, dan observabilitas aplikasi web."
-      }
-    ]
+    "certs": [],
+    "training": []
   },
   "contact": {
     "title": "Mari bangun sesuatu bersama.",
-    "sub": "Terbuka untuk proyek freelance, posisi penuh waktu, maupun kolaborasi riset. Balasan biasanya dalam 1×24 jam.",
-    "email": "andi@example.com",
+    "sub": "Terbuka untuk proyek freelance, maupun kolaborasi riset. Balasan biasanya dalam 1×24 jam.",
+    "email": "wafiarifin0609@gmail.com",
+    "whatsapp": "+6285826251099",
+    "whatsappMessage": "Halo, saya menemukan situs Anda dan ingin bertanya.",
     "socials": [
       {
         "label": "LinkedIn",
-        "url": "https://linkedin.com/in/username",
+        "url": "https://www.linkedin.com/in/wafi-arifin-s-kom-m-kom-42a607376?utm_source=share_via&utm_content=profile&utm_medium=member_ios",
         "icon": "linkedin"
       },
       {
         "label": "GitHub",
-        "url": "https://github.com/username",
+        "url": "https://github.com/wafiarifin",
         "icon": "github"
-      },
-      {
-        "label": "Dribbble",
-        "url": "https://dribbble.com/username",
-        "icon": "dribbble"
       },
       {
         "label": "Unduh CV",
@@ -601,7 +600,7 @@
     ]
   },
   "footer": {
-    "name": "Andi Pratama",
-    "role": "Web Developer & Technical Educator"
+    "name": "Wafi Arifin",
+    "role": "Educator Teknologi"
   }
 }
