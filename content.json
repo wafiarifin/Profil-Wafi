@@ -221,7 +221,7 @@
       "title": "SIMPONI — Sistem Monitoring & Pelaporan Posyandu Pusporini",
       "category": "web",
       "year": "2026",
-      "accent": "#7a5c1f",
+      "accent": "#9648e5",
       "glyph": "SIMPONI",
       "problem": "Pelaporan kegiatan Posyandu masih berpotensi dilakukan secara manual dan tidak terintegrasi.\nData pelayanan membutuhkan proses pencatatan dan rekapitulasi yang lebih cepat, rapi, dan mudah dipantau.\nPetugas membutuhkan media yang sederhana untuk melakukan input dan pelaporan data 6 SPM.\nProses monitoring dan dokumentasi data menjadi kurang efisien apabila masih bergantung pada pencatatan konvensional.",
       "solution": "Membangun sistem pelaporan Posyandu berbasis digital melalui formulir online yang dapat digunakan oleh petugas untuk memasukkan data pelaporan secara lebih terstruktur.",
@@ -253,7 +253,7 @@
       "title": "Website Desa Bermi",
       "category": "web",
       "year": "2026",
-      "accent": "#2f6d55",
+      "accent": "#2eff1f",
       "glyph": "Ds.Bermi",
       "problem": "Desa membutuhkan media digital yang mampu menyajikan informasi dan mendukung pelayanan masyarakat secara lebih mudah dan terstruktur.",
       "solution": "Mengembangkan portal digital Desa Bermi sebagai pusat informasi dan layanan online, termasuk integrasi form/aplikasi digital serta penyusunan struktur informasi yang mudah diakses masyarakat.",
@@ -280,7 +280,7 @@
       "title": "Mubarak Kost - Manajeman dan Form Digital",
       "category": "web",
       "year": "2026",
-      "accent": "#96701a",
+      "accent": "#dae548",
       "glyph": "Mubarak Kost",
       "problem": "Informasi mengenai kamar kost, fasilitas, dan ketersediaan kamar membutuhkan media yang mudah diakses secara online.\nCalon penghuni kost membutuhkan cara yang lebih praktis untuk mencari informasi sebelum datang langsung.\nPengelolaan informasi kost secara manual kurang efektif ketika harus memberikan informasi yang sama kepada banyak calon penghuni.\nDibutuhkan media digital yang dapat membantu promosi dan pengelolaan informasi Mubarak Kost.",
       "solution": "Mengembangkan website Mubarak Kost sebagai media informasi dan promosi digital, sekaligus mengintegrasikan form/aplikasi untuk mendukung kebutuhan pengelolaan informasi.",
@@ -329,6 +329,16 @@
         "venue": "JUITA: Jurnal Informatika · Vol. 10 SINTA 2",
         "desc": "Penelitian berkualitas tidak akan terlepas dari sistem pengendalian yang membutuhkan mekanisme peninjauan. Tuntutan ini menganggap perlunya pembentukan komite penilaian atau peninjau yang memastikan bahwa semua proses berjalan menuju target yang diinginkan. Proses seleksi peninjau internal dilakukan dengan melihat beberapa persyaratan dari setiap calon peninjau. Proses seleksi dilakukan dengan melihat berkas persyaratan satu per satu. Oleh karena itu, perlu dioptimalkan metode yang mampu mengelola data penilaian calon peninjau yang memiliki nilai peringkat tertinggi dari hasil perhitungan bobot. Pengambilan keputusan dalam menentukan peninjau internal membutuhkan metode yang dapat memberikan hasil keputusan optimal dalam hal waktu pemrosesan yang relatif cepat. ",
         "url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=WMzcJPAAAAAJ&sortby=pubdate&authuser=3&citation_for_view=WMzcJPAAAAAJ:u5HHmVD_uO8C",
+        "image": ""
+      },
+      {
+        "id": "pub-2",
+        "type": "pengabdian",
+        "year": "2024",
+        "title": "Pemberdayaan gerakan literasi masyarakat melalui pojok ruang baca dalam mewujudkan Sustainable Development Goals 4: Pendidikan berkualitas",
+        "venue": "Prosiding Konferensi Nasional Pengabdian dan Pemberdayaan Masyarakat (KNPPM)",
+        "desc": "Gerakan Literasi Masyarakat (GLM) merupakan kegiatan yang dilakukan untuk menguatkan kepekaan belajar sepanjang hayat dengan memanfaatkan semua kemampuan yang dimiliki oleh masyarakat. Pojok baca merupakan pemanfaatan sudut ruang yang dijadikan sebagai sarana untuk mendekatkan buku sehingga masyarakat lebih tertarik membaca. Pembuatan pojok baca memiliki manfaat yang cukup luas yaitu diharapkan mampu merangsang atau menstimulasi masyarakat agar gemar membaca. Mitra kegiatan yakni Tempat Pembelajaran Al-Quran (TPA) yang ada di Tambun Selatan. Permasalahan yang ada di lokasi mitra yakni belum adanya sarana prasarana khusus yang dapat dimanfaatkan sebagai wadah untuk menumbuhkan budaya literasi membaca, minimnya bahan buku bacaan, hal tersebut yang menjadi pemicu rendahnya budaya literasi membaca.",
+        "url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=WMzcJPAAAAAJ&sortby=pubdate&authuser=3&citation_for_view=WMzcJPAAAAAJ:2osOgNQ5qMEC",
         "image": ""
       }
     ]
