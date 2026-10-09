@@ -27,6 +27,12 @@
   const content = window.CMS ? await window.CMS.loadSite() : null;
   if (!content) return;
 
+  // Draft lokal menyimpan gambar besar di IndexedDB (penanda `idb:`).
+  // Kembalikan menjadi data URL agar dapat ditampilkan di halaman.
+  if (window.CMS.hydrateMedia) {
+    try { await window.CMS.hydrateMedia(content); } catch { /* tampilkan seadanya */ }
+  }
+
   /* =========================================================
      1) RENDER — Meta & Brand
      ========================================================= */

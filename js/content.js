@@ -429,7 +429,20 @@ window.CMS = (() => {
     }
   }
   function save(content) {
-    localStorage.setItem(KEY, JSON.stringify(content));
+    try {
+      localStorage.setItem(KEY, JSON.stringify(content));
+    } catch (err) {
+      // localStorage hanya ~5 MB. Bila penuh (biasanya karena gambar base64),
+      // lemparkan error yang jelas agar panel admin bisa memberi arahan.
+      const e = new Error(
+        err && err.name === "QuotaExceededError"
+          ? "Penyimpanan browser penuh."
+          : "Gagal menyimpan ke penyimpanan browser."
+      );
+      e.name = (err && err.name) || "SaveError";
+      e.cause = err;
+      throw e;
+    }
     // Tandai bahwa perangkat ini punya perubahan lokal (draft) yang
     // belum diterbitkan, agar index.html menampilkan pratinjau lokal.
     try { localStorage.setItem(DRAFT_KEY, "1"); } catch { /* abaikan */ }
@@ -441,6 +454,145 @@ window.CMS = (() => {
   }
   function hasDraft() {
     try { return localStorage.getItem(DRAFT_KEY) === "1"; } catch { return false; }
+  }
+
+  /* ---------- Media (gambar) besar disimpan di IndexedDB ----------
+     localStorage hanya ~5 MB, sehingga data URL gambar cepat memenuhinya dan
+     membuat "Simpan" gagal (QuotaExceededError). Gambar kini disimpan di
+     IndexedDB (kuota jauh lebih besar) dan di konten hanya disimpan penanda
+     kecil `idb:<key>`. Saat diterbitkan, penanda dikembalikan menjadi data URL
+     agar gambar tetap tampil di semua perangkat. */
+  const MEDIA_DB = "portfolio-media";
+  const MEDIA_STORE = "images";
+  const MEDIA_PREFIX = "idb:";
+  let mediaDbPromise = null;
+
+  function mediaDb() {
+    if (mediaDbPromise) return mediaDbPromise;
+    mediaDbPromise = new Promise((resolve, reject) => {
+      if (typeof indexedDB === "undefined") {
+        reject(new Error("IndexedDB tidak tersedia"));
+        return;
+      }
+      const req = indexedDB.open(MEDIA_DB, 1);
+      req.onupgradeneeded = () => {
+        const db = req.result;
+        if (!db.objectStoreNames.contains(MEDIA_STORE)) db.createObjectStore(MEDIA_STORE);
+      };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error || new Error("Gagal membuka IndexedDB"));
+    });
+    mediaDbPromise.catch(() => { mediaDbPromise = null; });
+    return mediaDbPromise;
+  }
+
+  const isMediaRef = (v) => typeof v === "string" && v.startsWith(MEDIA_PREFIX);
+  const isDataImage = (v) => typeof v === "string" && /^data:image\//i.test(v);
+  const mediaKey = (ref) => String(ref || "").slice(MEDIA_PREFIX.length);
+
+  async function putMedia(dataUrl) {
+    const key = "m" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+    const db = await mediaDb();
+    await new Promise((resolve, reject) => {
+      const tx = db.transaction(MEDIA_STORE, "readwrite");
+      tx.objectStore(MEDIA_STORE).put(dataUrl, key);
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+      tx.onabort = () => reject(tx.error);
+    });
+    return MEDIA_PREFIX + key;
+  }
+
+  async function getMedia(ref) {
+    if (!isMediaRef(ref)) return "";
+    const db = await mediaDb();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(MEDIA_STORE, "readonly");
+      const req = tx.objectStore(MEDIA_STORE).get(mediaKey(ref));
+      req.onsuccess = () => resolve(req.result || "");
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  async function deleteMedia(ref) {
+    if (!isMediaRef(ref)) return;
+    const db = await mediaDb();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(MEDIA_STORE, "readwrite");
+      tx.objectStore(MEDIA_STORE).delete(mediaKey(ref));
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+      tx.onabort = () => reject(tx.error);
+    });
+  }
+
+  function walkStrings(node, cb) {
+    if (typeof node === "string") { cb(node); return; }
+    if (Array.isArray(node)) { node.forEach((v) => walkStrings(v, cb)); return; }
+    if (node && typeof node === "object") {
+      for (const k of Object.keys(node)) walkStrings(node[k], cb);
+    }
+  }
+
+  function transformStrings(node, fn) {
+    if (Array.isArray(node)) {
+      for (let i = 0; i < node.length; i++) {
+        const v = node[i];
+        node[i] = typeof v === "string" ? fn(v) : transformStrings(v, fn);
+      }
+      return node;
+    }
+    if (node && typeof node === "object") {
+      for (const k of Object.keys(node)) {
+        const v = node[k];
+        node[k] = typeof v === "string" ? fn(v) : transformStrings(v, fn);
+      }
+    }
+    return node;
+  }
+
+  // Pindahkan data URL gambar yang besar dari konten ke IndexedDB.
+  // Mengembalikan jumlah gambar yang dipindahkan.
+  async function externalizeMedia(content, minLen = 8000) {
+    const big = new Set();
+    walkStrings(content, (v) => { if (isDataImage(v) && v.length >= minLen) big.add(v); });
+    if (!big.size) return 0;
+    const map = new Map();
+    for (const data of big) {
+      try { map.set(data, await putMedia(data)); } catch { /* biarkan sebagai data URL */ }
+    }
+    if (!map.size) return 0;
+    let count = 0;
+    transformStrings(content, (v) => {
+      if (map.has(v)) { count++; return map.get(v); }
+      return v;
+    });
+    return count;
+  }
+
+  // Kembalikan penanda `idb:` menjadi data URL (dipakai untuk pratinjau situs
+  // dan saat menerbitkan agar gambar ikut tampil di perangkat lain).
+  async function hydrateMedia(content) {
+    const refs = new Set();
+    walkStrings(content, (v) => { if (isMediaRef(v)) refs.add(v); });
+    if (!refs.size) return content;
+    const map = new Map();
+    await Promise.all([...refs].map(async (ref) => {
+      try {
+        const data = await getMedia(ref);
+        if (data) map.set(ref, data);
+      } catch { /* biarkan */ }
+    }));
+    transformStrings(content, (v) => (isMediaRef(v) ? (map.get(v) || "") : v));
+    return content;
+  }
+
+  async function applyFaviconAsync(content) {
+    let url = String((content && content.brand && content.brand.faviconUrl) || "").trim();
+    if (isMediaRef(url)) {
+      try { url = await getMedia(url); } catch { url = ""; }
+    }
+    if (url) applyFavicon({ brand: { faviconUrl: url } });
   }
 
   /* ---------- Konten publik (tersinkron lintas perangkat) ----------
@@ -548,8 +700,10 @@ window.CMS = (() => {
   return {
     DEFAULT_CONTENT,
     load, save, reset, exportJSON, importJSON,
-    loadRemote, loadSite, hasDraft, applyFavicon,
+    loadRemote, loadSite, hasDraft, applyFavicon, applyFaviconAsync,
     initAuth, login, logout, isLoggedIn, changePassword,
+    isMediaRef, putMedia, getMedia, deleteMedia,
+    externalizeMedia, hydrateMedia,
     clone,
   };
 })();

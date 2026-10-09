@@ -115,9 +115,12 @@
     }
 
     // 2) Kirim konten terbaru (commit -> GitHub Pages terbit ulang).
+    //    Gambar yang tersimpan di IndexedDB dikembalikan menjadi data URL
+    //    agar ikut tampil di semua perangkat.
+    const snapshot = await CMS.hydrateMedia(CMS.clone(state));
     const body = {
       message: "Perbarui konten situs — " + new Date().toISOString(),
-      content: toBase64(JSON.stringify(state, null, 2) + "\n"),
+      content: toBase64(JSON.stringify(snapshot, null, 2) + "\n"),
       branch,
     };
     if (sha) body.sha = sha;
@@ -159,12 +162,17 @@
   function imageField(path, label, opts = {}) {
     const val = String(getPath(state, path) || "");
     const id = "img_" + path.replace(/[^a-z0-9]/gi, "_");
-    const isData = val.startsWith("data:");
+    const isStored = val.startsWith("data:") || CMS.isMediaRef(val);
+    const preview = !val
+      ? `<span>Belum ada gambar</span>`
+      : CMS.isMediaRef(val)
+        ? `<span>Memuat gambar…</span>`
+        : `<img alt="" src="${esc(val)}" />`;
     return `
       <div class="aimg" data-imgpath="${esc(path)}">
         <label for="${id}">${esc(label)}${opts.hint ? ` <small>${esc(opts.hint)}</small>` : ""}</label>
         <div class="aimg__row">
-          <div class="aimg__preview">${val ? `<img alt="" src="${esc(val)}" />` : `<span>Belum ada gambar</span>`}</div>
+          <div class="aimg__preview">${preview}</div>
           <div class="aimg__ctrl">
             <input id="${id}" class="aimg__file" type="file" accept="image/*" hidden />
             <label class="btn btn--outline btn--sm" for="${id}">Unggah gambar</label>
@@ -172,8 +180,17 @@
             <small class="aimg__info"></small>
           </div>
         </div>
-        <input type="text" class="aimg__url" data-imgurl="${esc(path)}" value="${isData ? "" : esc(val)}" placeholder="atau tempel URL gambar (https://... / assets/...)" />
+        <input type="text" class="aimg__url" data-imgurl="${esc(path)}" value="${isStored ? "" : esc(val)}" placeholder="atau tempel URL gambar (https://... / assets/...)" />
       </div>`;
+  }
+
+  // Simpan gambar ke IndexedDB (agar localStorage tidak penuh). Bila
+  // IndexedDB tidak tersedia, jatuh kembali ke data URL seperti sebelumnya.
+  async function storeImage(dataUrl) {
+    try { return await CMS.putMedia(dataUrl); } catch { return dataUrl; }
+  }
+  function dropMedia(value) {
+    if (CMS.isMediaRef(value)) CMS.deleteMedia(value).catch(() => {});
   }
 
   function initImageFields() {
@@ -187,6 +204,21 @@
         preview.innerHTML = src ? `<img alt="" src="${esc(src)}" />` : `<span>Belum ada gambar</span>`;
       };
 
+      // Bila gambar disimpan di IndexedDB, ambil isinya untuk pratinjau.
+      const cur = getPath(state, path);
+      if (CMS.isMediaRef(cur)) {
+        CMS.getMedia(cur)
+          .then((data) => {
+            if (data) {
+              paint(data);
+              if (info) info.textContent = "Gambar tersimpan di perangkat ini.";
+            } else {
+              paint("");
+            }
+          })
+          .catch(() => paint(""));
+      }
+
       file?.addEventListener("change", async () => {
         const f = file.files && file.files[0];
         if (!f) return;
@@ -198,7 +230,10 @@
             file.value = "";
             return;
           }
-          setPath(state, path, dataUrl);
+          const prev = getPath(state, path);
+          const stored = await storeImage(dataUrl);
+          setPath(state, path, stored);
+          if (prev !== stored) dropMedia(prev);
           dirty = true;
           setStatus("Ada perubahan belum disimpan");
           paint(dataUrl);
@@ -212,7 +247,9 @@
 
       url?.addEventListener("input", () => {
         const v = url.value.trim();
+        const prev = getPath(state, path);
         setPath(state, path, v);
+        if (prev !== v) dropMedia(prev);
         dirty = true;
         setStatus("Ada perubahan belum disimpan");
         paint(v);
@@ -221,7 +258,9 @@
 
       box.addEventListener("click", (e) => {
         if (!e.target.closest("[data-imgclear]")) return;
+        const prev = getPath(state, path);
         setPath(state, path, "");
+        dropMedia(prev);
         dirty = true;
         setStatus("Ada perubahan belum disimpan");
         paint("");
@@ -293,12 +332,15 @@
     if (!preview || !input) return;
 
     const current = getPath(state, "hero.photoUrl");
-    const isData = typeof current === "string" && current.startsWith("data:");
+    const isStored = typeof current === "string" && (current.startsWith("data:") || CMS.isMediaRef(current));
     const paint = (src) => { preview.src = src || DEFAULT_PHOTO; };
 
-    paint(current || DEFAULT_PHOTO);
-    if (urlInput) urlInput.value = isData ? "" : (current || "");
-    if (info) info.textContent = isData ? "Foto diunggah dari perangkat (tersimpan di browser)." : "";
+    paint(isStored ? DEFAULT_PHOTO : (current || DEFAULT_PHOTO));
+    if (urlInput) urlInput.value = isStored ? "" : (current || "");
+    if (info) info.textContent = isStored ? "Foto diunggah dari perangkat (tersimpan di perangkat ini)." : "";
+    if (CMS.isMediaRef(current)) {
+      CMS.getMedia(current).then((data) => { if (data) paint(data); }).catch(() => {});
+    }
 
     input.addEventListener("change", async () => {
       const file = input.files && input.files[0];
@@ -311,7 +353,10 @@
           input.value = "";
           return;
         }
-        setPath(state, "hero.photoUrl", dataUrl);
+        const prev = getPath(state, "hero.photoUrl");
+        const stored = await storeImage(dataUrl);
+        setPath(state, "hero.photoUrl", stored);
+        if (prev !== stored) dropMedia(prev);
         dirty = true;
         setStatus("Ada perubahan belum disimpan");
         paint(dataUrl);
@@ -324,7 +369,9 @@
     });
 
     clearBtn?.addEventListener("click", () => {
+      const prev = getPath(state, "hero.photoUrl");
       setPath(state, "hero.photoUrl", DEFAULT_PHOTO);
+      dropMedia(prev);
       dirty = true;
       setStatus("Ada perubahan belum disimpan");
       paint(DEFAULT_PHOTO);
@@ -334,7 +381,9 @@
 
     urlInput?.addEventListener("input", () => {
       const v = urlInput.value.trim();
+      const prev = getPath(state, "hero.photoUrl");
       setPath(state, "hero.photoUrl", v || DEFAULT_PHOTO);
+      if (prev !== v) dropMedia(prev);
       dirty = true;
       setStatus("Ada perubahan belum disimpan");
       paint(v || DEFAULT_PHOTO);
@@ -354,12 +403,17 @@
     if (!preview || !input) return;
 
     const current = getPath(state, "brand.faviconUrl");
-    const isData = typeof current === "string" && current.startsWith("data:");
+    const isStored = typeof current === "string" && (current.startsWith("data:") || CMS.isMediaRef(current));
     const paint = (src) => { preview.src = src || DEFAULT_FAVICON; };
 
-    paint(current || DEFAULT_FAVICON);
-    if (urlInput) urlInput.value = isData ? "" : (current || "");
-    if (info) info.textContent = isData ? "Favicon diunggah dari perangkat." : "";
+    paint(isStored ? DEFAULT_FAVICON : (current || DEFAULT_FAVICON));
+    if (urlInput) urlInput.value = isStored ? "" : (current || "");
+    if (info) info.textContent = isStored ? "Favicon diunggah dari perangkat." : "";
+    if (CMS.isMediaRef(current)) {
+      CMS.getMedia(current)
+        .then((data) => { if (data) { paint(data); if (window.CMS.applyFaviconAsync) CMS.applyFaviconAsync({ brand: { faviconUrl: data } }); } })
+        .catch(() => {});
+    }
 
     input.addEventListener("change", async () => {
       const file = input.files && input.files[0];
@@ -372,11 +426,14 @@
           input.value = "";
           return;
         }
-        setPath(state, "brand.faviconUrl", dataUrl);
+        const prev = getPath(state, "brand.faviconUrl");
+        const stored = await storeImage(dataUrl);
+        setPath(state, "brand.faviconUrl", stored);
+        if (prev !== stored) dropMedia(prev);
         dirty = true;
         setStatus("Ada perubahan belum disimpan");
         paint(dataUrl);
-        if (window.CMS.applyFavicon) CMS.applyFavicon(state);
+        if (window.CMS.applyFavicon) CMS.applyFavicon({ brand: { faviconUrl: dataUrl } });
         if (urlInput) urlInput.value = "";
         if (info) info.textContent = `Terunggah: ${file.name}`;
       } catch {
@@ -386,22 +443,26 @@
     });
 
     clearBtn?.addEventListener("click", () => {
+      const prev = getPath(state, "brand.faviconUrl");
       setPath(state, "brand.faviconUrl", DEFAULT_FAVICON);
+      dropMedia(prev);
       dirty = true;
       setStatus("Ada perubahan belum disimpan");
       paint(DEFAULT_FAVICON);
       if (urlInput) urlInput.value = "";
       if (info) info.textContent = "Kembali ke favicon default.";
-      if (window.CMS.applyFavicon) CMS.applyFavicon(state);
+      if (window.CMS.applyFavicon) CMS.applyFavicon({ brand: { faviconUrl: DEFAULT_FAVICON } });
     });
 
     urlInput?.addEventListener("input", () => {
       const v = urlInput.value.trim();
+      const prev = getPath(state, "brand.faviconUrl");
       setPath(state, "brand.faviconUrl", v || DEFAULT_FAVICON);
+      if (prev !== v) dropMedia(prev);
       dirty = true;
       setStatus("Ada perubahan belum disimpan");
       paint(v || DEFAULT_FAVICON);
-      if (window.CMS.applyFavicon) CMS.applyFavicon(state);
+      if (window.CMS.applyFavicon) CMS.applyFavicon({ brand: { faviconUrl: v || DEFAULT_FAVICON } });
       if (info) info.textContent = "";
     });
   }
@@ -485,7 +546,6 @@
             <li>Perubahan tersimpan di browser ini (localStorage). Agar tampil di HP/tab/perangkat lain, buka <b>Pengaturan → Publikasi ke semua perangkat</b> lalu klik <b>Publikasikan</b>.</li>
             <li>Menu <b>Profil &amp; Hero</b> mengatur nama, peran, ringkasan, dan statistik.</li>
             <li>Menu <b>Proyek</b> mendukung tambah/ubah/hapus, tag teknologi, serta tautan demo &amp; repo.</li>
-            <li>Jangan lupa ubah password default di menu <b>Pengaturan</b>.</li>
           </ul>
         </div>`;
     },
@@ -1017,7 +1077,29 @@
 
   /* ---------- Actions ---------- */
   async function save() {
-    CMS.save(state);
+    try {
+      CMS.save(state);
+    } catch (err) {
+      // Bila penyimpanan penuh, pindahkan gambar besar ke IndexedDB lalu coba lagi.
+      let recovered = false;
+      try {
+        if (await CMS.externalizeMedia(state)) {
+          CMS.save(state);
+          recovered = true;
+        }
+      } catch { /* tetap penuh */ }
+      if (!recovered) {
+        const penuh = err && err.name === "QuotaExceededError";
+        setStatus(
+          "Gagal menyimpan: " +
+            (penuh
+              ? "penyimpanan browser penuh. Hapus gambar/foto yang tidak terpakai, lalu coba lagi."
+              : (err && err.message) || "terjadi kesalahan."),
+          true
+        );
+        return;
+      }
+    }
     dirty = false;
     const cfg = getPublishConfig();
     if (cfg && cfg.auto && cfg.token) {
@@ -1071,8 +1153,10 @@
     if (st) st.textContent = "Konfigurasi publikasi dihapus.";
   }
 
-  function exportJSON() {
-    const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+  async function exportJSON() {
+    // Sertakan gambar dari IndexedDB agar file cadangan lengkap.
+    const snapshot = await CMS.hydrateMedia(CMS.clone(state));
+    const blob = new Blob([JSON.stringify(snapshot, null, 2)], { type: "application/json" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
     a.download = "konten-portofolio.json";
@@ -1080,7 +1164,7 @@
     URL.revokeObjectURL(a.href);
   }
 
-  function importJSON() {
+  async function importJSON() {
     const area = $("#importArea");
     if (!area || !area.value.trim()) {
       setStatus("Tempel JSON terlebih dahulu.", true);
@@ -1088,6 +1172,8 @@
     }
     try {
       state = CMS.importJSON(area.value);
+      // Ringankan localStorage: pindahkan gambar besar ke IndexedDB.
+      try { if (await CMS.externalizeMedia(state)) CMS.save(state); } catch { /* abaikan */ }
       setStatus("Konten berhasil diimpor ✓");
       render(currentView);
     } catch {
@@ -1150,8 +1236,12 @@
 
   async function showApp() {
     await CMS.initAuth();
-    const { name, initials } = CMS.load().brand || {};
-    if (window.CMS.applyFavicon) CMS.applyFavicon(CMS.load());
+    // Pindahkan gambar base64 lama dari localStorage ke IndexedDB agar
+    // penyimpanan tidak penuh dan tombol Simpan kembali berfungsi.
+    try { if (await CMS.externalizeMedia(state)) CMS.save(state); } catch { /* abaikan */ }
+    const initials = (state.brand || {}).initials;
+    if (window.CMS.applyFaviconAsync) CMS.applyFaviconAsync(state);
+    else if (window.CMS.applyFavicon) CMS.applyFavicon(state);
     const mark = $("#loginBrand");
     if (mark) mark.textContent = initials || "AD";
     const side = $("#sideMark");
@@ -1208,7 +1298,10 @@
       }
       return;
     }
-    CMS.save(state);
+    try {
+      if (await CMS.externalizeMedia(state)) CMS.save(state);
+      else CMS.save(state);
+    } catch { /* gambar tetap ikut terbit dari memori */ }
     dirty = false;
     setStatus("Menerbitkan ke semua perangkat…");
     try {
