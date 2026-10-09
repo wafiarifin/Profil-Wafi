@@ -80,6 +80,11 @@ Halaman lain:
 
 ## Panel Admin (kelola konten)
 
+Tampilan panel memakai bahasa desain yang sama: **sidebar ink pekat** dengan indikator
+emas pada menu aktif, area konten terang, kartu ringkasan bergradien, dan layar login
+terbagi (panel merek + formulir). Semua id/kelas yang dipakai `js/admin.js` dipertahankan,
+sehingga tidak ada perubahan alur kerja.
+
 Akses melalui tautan **Panel Admin** di footer, atau langsung ke `admin.html`.
 
 - **Login default:** username `admin` — password `admin123` (ubah di menu **Pengaturan**).
@@ -149,7 +154,7 @@ Poin penting:
 
 - **Proyek**: field `title`, `category`, `year`, `accent`, `glyph`, `problem`, `solution`, `results[]`, `tech[]`, `links[]`.
 - **Nama, peran, kontak, SEO** kini satu sumber di `content.js` (`brand`, `hero`, `meta`) dan otomatis tersinkron ke hero, navbar, footer, serta JSON-LD.
-- **Warna/tema**: ubah design token di `:root` dan `[data-theme="dark"]` pada `css/style.css`.
+- **Warna/tema**: seluruh design token ada di `:root` dan `[data-theme="dark"]` pada `css/style.css` — lihat bagian **Design system** di bawah.
 - **CV**: ganti `assets/cv.pdf` atau ubah `hero.cvUrl`.
 - **Favicon**: ubah lewat panel admin — menu **Profil & Hero → Favicon**. Unggah gambar persegi (PNG/SVG, disarankan 256×256 px) atau tempel URL. Bisa juga ganti langsung `assets/favicon.svg` dan ubah `brand.faviconUrl` di `js/content.js`/`content.json`.
 - **Foto profil**: unggah lewat panel admin — menu **Profil & Hero → Foto Profil** (Pilih & unggah foto). Gambar otomatis diperkecil dan disimpan di browser. Bisa juga menempelkan URL pada kolom "Atau tempel URL foto", atau ganti langsung `assets/avatar.svg` dan ubah `hero.photoUrl` di `js/content.js`. Jika gagal dimuat, inisial otomatis ditampilkan.
@@ -162,6 +167,63 @@ Poin penting:
 - Bingkai otomatis membulat, jadi posisikan wajah di tengah agar tidak terpotong.
 - Tambahkan `<img src="..." alt="Foto profil Nama Anda" width="600" height="600" loading="eager" decoding="async" />` untuk menghindari layout shift.
 
+## Design system — "Ink & Brass" (UI/UX 2026)
+
+Tampilan situs publik **dan** panel admin memakai satu bahasa desain yang diadaptasi
+dari referensi visual `UI UX 2026.jfif`: band gelap pekat, aksen emas, dan glow aqua.
+
+### Palet
+
+| Token | Nilai | Dipakai untuk |
+| --- | --- | --- |
+| `--ink` | `#0f1f29` | Hero, band gelap, sidebar admin, footer |
+| `--ink-2` / `--ink-3` | `#162a36` / `#1e3744` | Permukaan di atas ink (kartu, sidebar) |
+| `--gold` / `--gold-2` | `#c8a24a` / `#e8cb85` | Tombol utama, label, garis aksen |
+| `--aqua` | `#7fe3f0` | Glow dekoratif, garis progres, aksen sekunder |
+| `--bg` / `--bg-alt` | `#ffffff` / `#f6f3ee` | Latar halaman terang (ivory) |
+| `--text` / `--text-soft` | `#14232c` / `#5c6a74` | Teks utama & sekunder |
+
+### Ritme seksi (terang ↔ gelap)
+
+```
+Hero (ink) → Tentang (ivory) → Keahlian (putih) → Publikasi (ink)
+→ Proyek (ivory) → Pengalaman (putih) → Pendidikan (ivory)
+→ Techmate (putih) → Kontak (kartu bercahaya) → Footer (ink)
+```
+
+Ganti latar sebuah seksi cukup dengan menambahkan kelas `section--ink`
+atau `section--alt` pada elemen `<section class="section ...">`.
+
+### Konteks "on ink"
+
+Kelas `.nav`, `.hero`, `.footer`, `.section--ink` (dan `.on-ink`) menimpa token warna
+secara lokal, sehingga **semua komponen di dalamnya otomatis beradaptasi** — tag,
+tombol, filter, kartu — tanpa perlu gaya khusus per komponen:
+
+```css
+.nav, .hero, .footer, .section--ink, .on-ink {
+  --surface: var(--ink-2);
+  --text: var(--ink-text);
+  --brand: var(--gold-2);
+  --brand-2: var(--aqua);
+  /* … */
+}
+```
+
+### Lain-lain
+
+- **Tipografi**: satu keluarga sans (Plus Jakarta Sans, weight 400–800) untuk semua
+  teks — sesuai referensi yang seluruhnya sans-serif. Label kecil (kicker, kategori,
+  tanggal, angka ringkasan) memakai tumpukan monospace sistem lewat token `--mono`.
+- **Bentuk**: `--radius` 18px untuk kartu, `--radius-lg` 28px untuk panel besar,
+  tombol selalu pill (`999px`).
+- **Warna kartu proyek**: aksen per proyek tetap dapat diubah di panel admin. Warna
+  bawaan lama otomatis dipetakan ke palet baru saat dirender (`LEGACY_ACCENTS`
+  di `js/main.js`); warna kustom buatan Anda dibiarkan apa adanya.
+- **Tema gelap**: area "ink" pada tema gelap berubah menjadi panel yang sedikit
+  terangkat (`#16242e`) sehingga ritme terang/gelap tetap terbaca.
+- **Anti-kedip**: tema diterapkan lewat skrip inline kecil di `<head>` sebelum CSS
+  di-render.
 ## Menjalankan
 
 Buka `index.html` langsung di browser, atau jalankan server lokal (disarankan agar `admin.html` dan `index.html` berbagi origin yang sama sehingga konten terbaca konsisten):
@@ -170,3 +232,55 @@ Buka `index.html` langsung di browser, atau jalankan server lokal (disarankan ag
 python -m http.server 8000
 # lalu buka http://localhost:8000
 ```
+
+## Troubleshooting: browser bilang "Not Secure"
+
+Jalankan pemeriksa otomatis (Windows PowerShell):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\cek-ssl.ps1
+```
+
+### Penyebab
+
+Situs ini dilayani **GitHub Pages** dengan custom domain `wafiarifin.my.id`.
+Agar gembok HTTPS muncul, GitHub harus menerbitkan sertifikat Let's Encrypt
+khusus untuk domain itu. Kalau belum terbit, GitHub menyajikan sertifikat
+bawaannya (`*.github.io`) yang **tidak mencakup** `wafiarifin.my.id`, sehingga
+browser menandai situs **Not Secure**.
+
+Perlu dipahami: masalah ini **tidak ada di dalam repo ini**. DNS, `CNAME`, dan
+konten sudah benar. Yang perlu diperbaiki adalah pengaturan Pages di GitHub.
+
+### Ciri-ciri sertifikat belum terbit
+
+- `cek-ssl.ps1` melaporkan `Subject : CN=*.github.io` dan `COCOK : TIDAK`.
+- Permintaan ke `http://` tidak dialihkan ke `https://`.
+- Opsi **Enforce HTTPS** di Settings > Pages tidak bisa dicentang / abu-abu.
+
+### Cara memperbaiki
+
+1. Buka `https://github.com/wafiarifin/Profil-Wafi/settings/pages`.
+2. Di bagian **Custom domain**, kosongkan / klik **Remove**, lalu **Save**.
+3. Isi kembali `wafiarifin.my.id`, lalu **Save**.
+   Langkah 2-3 ini memicu ulang permintaan sertifikat ke Let's Encrypt.
+4. Tunggu 15 menit sampai 24 jam. Jalankan `cek-ssl.ps1` berkala.
+5. Setelah `COCOK : ya`, centang **Enforce HTTPS**, lalu **Save**.
+   Mulai saat itu semua akses `http://` otomatis dialihkan ke `https://`.
+
+Setelah **Enforce HTTPS** aktif, file `CNAME` di repo ini akan tetap berisi
+`wafiarifin.my.id` dan tidak perlu diubah.
+
+### Kalau tetap gagal setelah 24 jam
+
+- Pastikan hanya repo `Profil-Wafi` yang memakai domain ini. Domain yang
+diklaim dua repo sekaligus membuat penerbitan sertifikat selalu gagal.
+- Pastikan DNS hanya berisi 4 IP GitHub Pages
+  (`185.199.108.153` - `185.199.111.153`) tanpa IP tambahan dari hosting lama.
+- Pastikan tidak ada CAA record di DNS yang melarang Let's Encrypt.
+- Verifikasi kepemilikan domain lewat **Settings > Pages > Verify domain**,
+lalu tambahkan TXT `_github-pages-challenge-wafiarifin.wafiarifin.my.id`
+di DNS.
+- Alternatif: pasang **Cloudflare** (gratis) di depan domain, mode SSL
+**Full**. Cloudflare akan menerbitkan sertifikat sendiri sehingga gembok
+muncul tanpa menunggu GitHub.

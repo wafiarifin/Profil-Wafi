@@ -254,6 +254,21 @@
     return `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1"/></svg>`;
   }
 
+  /* Peta warna aksen lama -> palet "Ink & Brass" baru.
+     Warna kustom buatan pengguna tetap dipertahankan apa adanya. */
+  const LEGACY_ACCENTS = {
+    "#4f46e5": "#96701a", // indigo  -> brass
+    "#0891b2": "#1f6f7d", // cyan    -> teal
+    "#7c3aed": "#7a5c1f", // violet  -> bronze
+    "#059669": "#2f6d55", // emerald -> pine
+    "#db2777": "#8a4a3c", // pink    -> terracotta
+    "#b45309": "#3f5a7a", // amber   -> slate
+  };
+  const accentOf = (c) => {
+    const raw = String(c || "").trim().toLowerCase();
+    return LEGACY_ACCENTS[raw] || raw || "#96701a";
+  };
+
   function cardMarkup(p, index) {
     const MAX_TAGS = 3;
     const shown = p.tech.slice(0, MAX_TAGS).map((t) => `<li>${esc(t)}</li>`);
@@ -270,7 +285,7 @@
       .join("");
 
     return `
-      <article class="card" style="--accent:${esc(p.accent)}; animation-delay:${index * 60}ms" data-id="${esc(p.id)}">
+      <article class="card" style="--accent:${esc(accentOf(p.accent))}; animation-delay:${index * 60}ms" data-id="${esc(p.id)}">
         <div class="card__media">
           <span class="card__year">${esc(p.year)}</span>
           <span class="card__glyph" aria-hidden="true">${esc(p.glyph)}</span>
@@ -436,7 +451,7 @@
   const pubFiltersWrap = $("#publicationFilters");
   const pubTypeLabel = (id) => (pub.categories.find((c) => c.id === id) || {}).label || id;
   const pubAccent = (id) =>
-    ({ penelitian: "#4f46e5", pengabdian: "#059669", buku: "#b45309" })[id] || "#4f46e5";
+    ({ penelitian: "#e8cb85", pengabdian: "#7fe3f0", buku: "#e0a273" })[id] || "#e8cb85";
 
   setText(".section#publikasi .kicker", pub.kicker);
   setText(".section#publikasi .section__title", pub.title);

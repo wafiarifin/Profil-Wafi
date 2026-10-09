@@ -36,7 +36,7 @@
     "skills.core": { title: "", desc: "" },
     categories: { id: "", label: "" },
     projects: {
-      id: "", title: "", category: "web", year: "", accent: "#4f46e5", glyph: "",
+      id: "", title: "", category: "web", year: "", accent: "#96701a", glyph: "",
       problem: "", solution: "", results: [], tech: [], links: [],
     },
     experience: { type: "kerja", typeLabel: "", date: "", title: "", org: "", points: [] },
@@ -148,7 +148,7 @@
     if (type === "bool")
       return `<div class="afield"><label for="${id}">${esc(label)}</label><select id="${id}" data-path="${esc(path)}" data-bool="1"><option value="true"${val ? " selected" : ""}>Ya</option><option value="false"${!val ? " selected" : ""}>Tidak</option></select></div>`;
     if (type === "color")
-      return `<div class="afield"><label for="${id}">${esc(label)}</label><input id="${id}" type="color" data-path="${esc(path)}" value="${esc(val || "#4f46e5")}"></div>`;
+      return `<div class="afield"><label for="${id}">${esc(label)}</label><input id="${id}" type="color" data-path="${esc(path)}" value="${esc(val || "#96701a")}"></div>`;
     if (type === "number")
       return `<div class="afield"><label for="${id}">${esc(label)}</label><input id="${id}" type="number" min="0" max="100" data-path="${esc(path)}" value="${esc(val ?? "")}"></div>`;
 

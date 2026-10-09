@@ -8,6 +8,7 @@
   <meta http-equiv="Expires" content="0" />
   <title>Profil Diri &mdash; Portofolio Digital</title>
   <meta name="description" content="Portofolio digital: keahlian utama, proyek pilihan, dan pengalaman." />
+  <meta name="theme-color" content="#0f1f29" />
 
   <link rel="icon" href="assets/favicon.svg" />
   <link rel="apple-touch-icon" href="assets/favicon.svg" />
@@ -18,7 +19,19 @@
     href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="css/style.css?v=20260810-4" />
+  <link rel="stylesheet" href="css/style.css?v=20260826-uiux2026" />
+
+  <!-- Terapkan tema sebelum render agar tidak berkedip terang -> gelap -->
+  <script>
+    (function () {
+      try {
+        var k = "portfolio-theme";
+        var t = localStorage.getItem(k) ||
+          (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) { /* abaikan */ }
+    })();
+  </script>
 
   <!-- Structured data: membantu SEO & pembaca CV memahami identitas -->
   <script type="application/ld+json">
@@ -145,6 +158,7 @@
           </figure>
         </div>
       </div>
+      <hr class="hero__rule" />
     </section>
 
     <!-- ============ TENTANG SAYA ============ -->
@@ -404,7 +418,7 @@
     </section>
 
     <!-- ============ PUBLIKASI KARYA ============ -->
-    <section class="section section--alt" id="publikasi">
+    <section class="section section--ink" id="publikasi">
       <div class="container">
         <header class="section__head reveal">
           <p class="kicker">Publikasi Karya</p>
@@ -423,7 +437,7 @@
     </section>
 
     <!-- ============ PROYEK PILIHAN ============ -->
-    <section class="section" id="proyek">
+    <section class="section section--alt" id="proyek">
       <div class="container">
         <header class="section__head reveal">
           <p class="kicker">Portofolio</p>
@@ -449,7 +463,7 @@
     </section>
 
     <!-- ============ PENGALAMAN KERJA & ORGANISASI ============ -->
-    <section class="section section--alt" id="pengalaman">
+    <section class="section" id="pengalaman">
       <div class="container">
         <header class="section__head reveal">
           <p class="kicker">Perjalanan</p>
@@ -537,7 +551,7 @@
     </section>
 
     <!-- ============ PENDIDIKAN & SERTIFIKASI ============ -->
-    <section class="section" id="pendidikan">
+    <section class="section section--alt" id="pendidikan">
       <div class="container">
         <header class="section__head reveal">
           <p class="kicker">Kredensial</p>
@@ -660,7 +674,7 @@
     </section>
 
     <!-- ============ TECHMATE (KURSUS PRIVAT) ============ -->
-    <section class="section section--alt" id="techmate">
+    <section class="section" id="techmate">
       <div class="container">
         <header class="section__head reveal">
           <p class="kicker">Techmate</p>
@@ -776,8 +790,8 @@
     </div>
   </footer>
 
-  <script src="js/content.js?v=20260810-4"></script>
-  <script src="js/main.js?v=20260810-4"></script>
+  <script src="js/content.js?v=20260826-uiux2026"></script>
+  <script src="js/main.js?v=20260826-uiux2026"></script>
 
   <button class="to-top" id="toTop" type="button" aria-label="Kembali ke atas" hidden>
     <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
