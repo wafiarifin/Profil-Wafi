@@ -254,19 +254,43 @@
     return `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1"/></svg>`;
   }
 
-  /* Peta warna aksen lama -> palet "Ink & Brass" baru.
-     Warna kustom buatan pengguna tetap dipertahankan apa adanya. */
+  /* Peta warna aksen lama/off-palette -> palet "Ink & Brass" baru.
+     Tujuannya agar kartu proyek tetap selaras dengan tema.
+     Warna kustom di luar daftar ini tetap dipertahankan (lihat accentOf). */
   const LEGACY_ACCENTS = {
+    /* palet bawaan lama */
     "#4f46e5": "#96701a", // indigo  -> brass
     "#0891b2": "#1f6f7d", // cyan    -> teal
     "#7c3aed": "#7a5c1f", // violet  -> bronze
     "#059669": "#2f6d55", // emerald -> pine
     "#db2777": "#8a4a3c", // pink    -> terracotta
     "#b45309": "#3f5a7a", // amber   -> slate
+    /* warna terang/neon yang dipakai di konten terbit */
+    "#9648e5": "#7a5c1f", // violet  -> bronze
+    "#2eff1f": "#2f6d55", // neon    -> pine
+    "#dae548": "#96701a", // lime    -> brass
+  };
+
+  const HEX6 = /^#[0-9a-f]{6}$/i;
+  const rgbOf = (hex) => [1, 3, 5].map((i) => parseInt(hex.substr(i, 2), 16));
+  const relLum = ([r, g, b]) => {
+    const f = (c) => { c /= 255; return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); };
+    return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+  };
+  /* Jaring pengaman aksesibilitas: aksen dipakai sebagai warna teks di atas
+     latar terang, jadi pastikan kontrasnya cukup (rasio >= 3 terhadap putih). */
+  const accentSafe = (hex) => {
+    let [r, g, b] = rgbOf(hex);
+    for (let i = 0; i < 14 && 1.05 / (relLum([r, g, b]) + 0.05) < 3; i++) {
+      r = Math.round(r * 0.91); g = Math.round(g * 0.91); b = Math.round(b * 0.91);
+    }
+    return "#" + [r, g, b].map((c) => c.toString(16).padStart(2, "0")).join("");
   };
   const accentOf = (c) => {
     const raw = String(c || "").trim().toLowerCase();
-    return LEGACY_ACCENTS[raw] || raw || "#96701a";
+    const base = LEGACY_ACCENTS[raw] || raw;
+    if (!HEX6.test(base)) return base || "#96701a";
+    return accentSafe(base);
   };
 
   function cardMarkup(p, index) {
