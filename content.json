@@ -372,17 +372,6 @@
         ]
       },
       {
-        "id": "ms-excel",
-        "title": "Ms Excel",
-        "desc": "Rumus, tabel, grafik, pivot table, hingga otomatisasi laporan.",
-        "image": "",
-        "tags": [
-          "Rumus",
-          "Pivot Table",
-          "Grafik"
-        ]
-      },
-      {
         "id": "video-editing",
         "title": "Video Editing",
         "desc": "Editing video untuk konten media sosial maupun kebutuhan profesional.",
