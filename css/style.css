@@ -1,12 +1,12 @@
 /* =========================================================
-   Profil Diri â€” Portofolio Digital
+   Profil Diri — Portofolio Digital
    Design system: "INK & BRASS"
    Diadaptasi dari referensi visual UI UX 2026:
-   Â· navy ink pekat     (#0F1F29 / #162A36)
-   Â· emas brass         (#C8A24A / #E8CB85)
-   Â· glow aqua 2026     (#7FE3F0)
-   Â· tipografi sans tebal, kontras tinggi
-   Â· ritme seksi: gelap -> terang -> gelap -> terang
+   · navy ink pekat     (#0F1F29 / #162A36)
+   · emas brass         (#C8A24A / #E8CB85)
+   · glow aqua 2026     (#7FE3F0)
+   · tipografi sans tebal, kontras tinggi
+   · ritme seksi: gelap -> terang -> gelap -> terang
    ========================================================= */
 
 /* =========================================================
@@ -173,7 +173,7 @@ h1, h2, h3, h4 { letter-spacing: -.03em; line-height: 1.15; font-weight: 800; }
 
 :focus-visible { outline: 3px solid var(--brand); outline-offset: 3px; border-radius: 8px; }
 
-/* Label kecil bergaya mono â€” sentuhan editorial 2026 */
+/* Label kecil bergaya mono — sentuhan editorial 2026 */
 .kicker,
 .about__subhead,
 .about__facts-title,
@@ -234,7 +234,7 @@ h1, h2, h3, h4 { letter-spacing: -.03em; line-height: 1.15; font-weight: 800; }
 [data-theme="dark"] .icon-moon { display: none; }
 
 /* =========================================================
-   4) NAVBAR â€” selalu ink, kaca, aksen emas
+   4) NAVBAR — selalu ink, kaca, aksen emas
    ========================================================= */
 .nav {
   position: fixed; inset: 0 0 auto 0; z-index: 100;
@@ -290,7 +290,7 @@ h1, h2, h3, h4 { letter-spacing: -.03em; line-height: 1.15; font-weight: 800; }
 .nav__burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
 /* =========================================================
-   5) HERO â€” band ink penuh dengan glow emas + aqua
+   5) HERO — band ink penuh dengan glow emas + aqua
    ========================================================= */
 .hero {
   position: relative; isolation: isolate;
@@ -876,7 +876,7 @@ h1, h2, h3, h4 { letter-spacing: -.03em; line-height: 1.15; font-weight: 800; }
 .techmate__cta-inner .icon { width: 1.1em; height: 1.1em; }
 
 /* =========================================================
-   16) KONTAK â€” kartu bercahaya emas + aqua (khas referensi)
+   16) KONTAK — kartu bercahaya emas + aqua (khas referensi)
    ========================================================= */
 .section--contact { padding-bottom: 7rem; }
 .contact {
@@ -949,7 +949,7 @@ h1, h2, h3, h4 { letter-spacing: -.03em; line-height: 1.15; font-weight: 800; }
 .contact-form__status.is-error { color: #e5484d; }
 
 /* =========================================================
-   17) FOOTER â€” band ink
+   17) FOOTER — band ink
    ========================================================= */
 .footer {
   background: var(--ink); border-top: 1px solid var(--ink-line);
